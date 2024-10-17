@@ -12,7 +12,7 @@ class Cliente extends CI_Controller {
 
 	public function usuario()
 	{
-		if($this->session->userdata('login'))
+		if($this->session->userdata('email'))
 		{
 			$lista=$this->cliente_model->listaclientes();
 			$data ['personas']=$lista;

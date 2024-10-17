@@ -3,124 +3,148 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Administrador extends CI_Controller {
 
-    // Constructor para cargar el modelo
-    public function __construct()
-    {
-        parent::__construct();
-        $this->load->model('admin_model'); // Carga el modelo conductor_model
-    }
-
-    public function demo()
-    {
-        $this->load->view('inc/vistaslte/head');
-        $this->load->view('inc/vistaslte/menu');
-        $this->load->view('inc/vistaslte/test');
-        $this->load->view('inc/vistaslte/footer');
-    }
-
-    public function curso()
-    {
-        if($this->session->userdata('login'))
-        {
-            $lista3 = $this->admin_model->listaconductores();
-            $data['alumnos'] = $lista3;
-
-            $this->load->view('inc/head');
-            $this->load->view('inc/menu');
-            $this->load->view('lista3', $data);
-            $this->load->view('inc/footer');
-            $this->load->view('inc/pie');        
+        public function __construct() {
+            parent::__construct();
+            $this->load->model('cargos_model'); // Cargar el modelo de cargos
         }
-        else
-        {
-            redirect('usuarios/index', 'refresh');
-        }
-    }
 
-    public function deshabilitados()
-    {
-        $lista3 = $this->admin_model->listadeshabilitados1();
-        $data['alumnos'] = $lista3;
+	public function index()
+	{
+		if($this->session->userdata('tipo')=='admin')
+		{ 
+			$this->load->view('inc/head');
+			$this->load->view('inc/menu');
+			$this->load->view('inc/footer');
+			$this->load->view('inc/pie');
+		}
+		else
+		{
+			redirect('usuarios/panelAdmin', 'refresh');
+		}
+	}
 
-        $this->load->view('inc/head');
-        $this->load->view('inc/menuGt');
-        $this->load->view('deshabilAdmin', $data);
-        $this->load->view('inc/footer');
-        $this->load->view('inc/pie');
-    }
+	public function registrar()
+	{
+		
+			$data['cargos'] = $this->cargos_model->listacargos();
+			
+			
+			$this->load->view('formAdmin', $data);
+			
+		
+	}
 
-    public function agregar()
-    {
-        $this->load->view('inc/head');
-        $this->load->view('inc/menuGt');
-        $this->load->view('formAdmin');
-        $this->load->view('inc/footer');
-        $this->load->view('inc/pie');
-    }
 
-    public function agregarbd3()
-    {
-        $data['ciNit'] = ($_POST['ciNit']);
-        $data['nombre'] = ($_POST['nombre']);
-        $data['primerApellido'] = ($_POST['primerApellido']);
-        $data['segundoApellido'] = ($_POST['segundoApellido']);
-        $data['login'] = ($_POST['login']);
-        $data['codigo']=md5($_POST['codigo']);
-        $data['cargo'] = ($_POST['cargo']);
-        
-        $this->admin_model->agregarconductores($data);
-        redirect('administrador/curso', 'refresh');
-    }
+	public function registrarbd()
+	{
+		$data['nombre'] = $_POST['nombre'];
+		$data['primerApellido'] = $_POST['primerApellido'];
+		$data['segundoApellido'] = $_POST['segundoApellido'];
+		$data['ciNit'] = $_POST['ciNit'];
+		$data['email'] = $_POST['email'];
+		$data['contrasena'] = password_hash($_POST['contrasena'], PASSWORD_BCRYPT);  // Para seguridad
+		$data['turno'] = $_POST['turno'];
 
-    public function eliminarbd()
-    {
-        $idAdmin = $_POST['idAdmin'];
-        $this->admin_model->eliminarconductores($idAdmin);
-        redirect('administrador/curso', 'refresh');
-    }
+		$id = $_POST['id'];
 
-    public function modificar()
-    {
-        $idAdmin = $_POST['idAdmin'];
-        $data['infoconductor'] = $this->admin_model->recuperarconductores($idAdmin);
+		// Subir foto
+		if (!empty($_FILES['foto']['name'])) {
+			$config['upload_path'] = './uploads/';
+			$config['allowed_types'] = 'jpg|png';
+			$config['file_name'] = $data['ciNit'] . ".jpg"; // Usar CI/NIT como nombre del archivo
 
-        $this->load->view('inc/head');
-        $this->load->view('inc/menuGt');
-        $this->load->view('formmodAdmin', $data);
-        $this->load->view('inc/footer');
-        $this->load->view('inc/pie');
-    }
+			$this->load->library('upload', $config);
 
-    public function modificarbd()
-    {
-        $idAdmin = $_POST['idAdmin'];
-        $data['ciNit'] = ($_POST['ciNit']);
-        $data['nombre'] = ($_POST['nombre']);
-        $data['primerApellido'] = ($_POST['primerApellido']);
-        $data['segundoApellido'] = ($_POST['segundoApellido']);
-        $data['login'] = ($_POST['login']);
-        $data['codigo'] = md5($_POST['codigo']);
-        $data['cargo'] = ($_POST['cargo']);
+			if ($this->upload->do_upload('foto')) {
+				$data['foto'] = $config['file_name'];
+			} else {
+				$data['error'] = $this->upload->display_errors();
+			}
+		}
 
-        $this->admin_model->modificarconductores($idAdmin, $data);
-        redirect('administrador/curso', 'refresh');
-    }
+		$this->cargos_model->agregarCargo($id, $data);
+		redirect('usuarios/index', 'refresh');
+	}
 
-    public function deshabilitarbd()
-    {
-        $idAdmin = $_POST['idAdmin'];
-        $data['activo'] = '0';
+	public function modificar()
+	{
+		$idUsuario = $_POST['idUsuario'];
+		$data['infousuario'] = $this->usuario_model->recuperarUsuario($idUsuario);
 
-        $this->admin_model->modificarconductores($idAdmin, $data);
-        redirect('administrador/curso', 'refresh');
-    }
+		$data['cargos'] = $this->cargo_model->listarCargos(); // Para modificar el cargo si es necesario
 
-    public function habilitarbd()
-    {
-        $idAdmin = $_POST['idAdmin'];
-        $data['activo'] = '1';
+		$this->load->view('inc/header');
+		$this->load->view('modificar_usuario_form', $data);
+		$this->load->view('inc/footer');
+	}
 
-        $this->admin_model->modificarconductores($idAdmin, $data);
-        redirect('administrador/deshabilitados', 'refresh');
-    }
+	public function modificarbd()
+	{
+		$idUsuario = $_POST['idUsuario'];
+		$data['nombre'] = $_POST['nombre'];
+		$data['primerApellido'] = $_POST['primerApellido'];
+		$data['segundoApellido'] = $_POST['segundoApellido'];
+		$data['ciNit'] = $_POST['ciNit'];
+		$data['email'] = $_POST['email'];
+		$data['turno'] = $_POST['turno'];
+		$data['estado'] = $_POST['estado'];
+
+		$nombrearchivo = $data['ciNit'] . ".jpg"; // Asignar el nombre de la foto
+
+		// Configurar subida de archivos
+		$config['upload_path'] = './uploads/';
+		$config['file_name'] = $nombrearchivo;
+		$config['allowed_types'] = 'jpg|png';
+		$direccion = "./uploads/" . $nombrearchivo;
+
+		if (file_exists($direccion)) {
+			unlink($direccion);
+		}
+
+		$this->load->library('upload', $config);
+
+		if (!$this->upload->do_upload('foto')) {
+			$data['error'] = $this->upload->display_errors();
+		} else {
+			$data['foto'] = $nombrearchivo;
+		}
+
+		$this->usuario_model->modificarUsuario($idUsuario, $data);
+		redirect('usuario/index', 'refresh');
+	}
+
+	public function eliminarbd()
+	{
+		$idUsuario = $_POST['idUsuario'];
+		$this->usuario_model->eliminarUsuario($idUsuario);
+		redirect('usuario/index', 'refresh');
+	}
+
+	public function deshabilitarbd()
+	{
+		$idUsuario = $_POST['idUsuario'];
+		$data['estado'] = '0'; // Estado deshabilitado
+
+		$this->usuario_model->modificarUsuario($idUsuario, $data);
+		redirect('usuario/index', 'refresh');
+	}
+
+	public function habilitarbd()
+	{
+		$idUsuario = $_POST['idUsuario'];
+		$data['estado'] = '1'; // Estado habilitado
+
+		$this->usuario_model->modificarUsuario($idUsuario, $data);
+		redirect('usuario/deshabilitados', 'refresh');
+	}
+
+	public function deshabilitados()
+	{
+		$lista = $this->usuario_model->listarUsuariosDeshabilitados();
+		$data['usuarios'] = $lista;
+
+		$this->load->view('inc/header');
+		$this->load->view('lista_usuarios_deshabilitados', $data);
+		$this->load->view('inc/footer');
+	}
 }

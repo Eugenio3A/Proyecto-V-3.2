@@ -21,8 +21,8 @@ class Usuarios extends CI_Controller {
 	// VALIDAR USUARIO ADMINISTRADOR
 	public function validarusuarioAdmin()
 	{
-		$login=$_POST['login'];
-		$password=md5($_POST['codigo']);
+		$login=$_POST['email'];
+		$password=md5($_POST['contrasena']);
 
 		echo $login;
 		echo $password;
@@ -37,10 +37,10 @@ class Usuarios extends CI_Controller {
 			foreach($consulta->result() as $row)
 			{
 
-				$this->session->set_userdata('idAdmin',$row->idAdmin);
-				$this->session->set_userdata('login',$row->login);
+				$this->session->set_userdata('idUsuario',$row->idUsuario);
+				$this->session->set_userdata('email',$row->email);
 				$this->session->set_userdata('tipo',$row->tipo);
-				$this->session->set_userdata('activo',$row->activo);
+				$this->session->set_userdata('estado',$row->estado);
 
 				redirect('usuarios/panelAdmin','refresh');
 			}
@@ -54,7 +54,7 @@ class Usuarios extends CI_Controller {
 
 	public function panelAdmin()
 	{
-		if($this->session->userdata('login'))
+		if($this->session->userdata('email'))
 		{
 			redirect('cliente/usuario','refresh');
 		}
@@ -64,7 +64,7 @@ class Usuarios extends CI_Controller {
 		}
 	}
 
-	public function logout()
+	public function logoutAdmin()
 	{
 		$this->session->sess_destroy();
 		redirect('usuarios/index','refresh');
@@ -75,8 +75,8 @@ class Usuarios extends CI_Controller {
 
 	public function validarusuarioEmp()
 	{
-		$login=$_POST['login'];
-		$password=md5($_POST['codigo']);
+		$login=$_POST['email'];
+		$password=md5($_POST['contrasena']);
 
 		echo $login;
 		echo $password;
@@ -91,10 +91,10 @@ class Usuarios extends CI_Controller {
 			foreach($consulta->result() as $row)
 			{
 
-				$this->session->set_userdata('idAdmin',$row->idAdmin);
-				$this->session->set_userdata('login',$row->login);
+				$this->session->set_userdata('idUsuario',$row->idUsuario);
+				$this->session->set_userdata('email',$row->email);
 				$this->session->set_userdata('tipo',$row->tipo);
-				$this->session->set_userdata('activo',$row->activo);
+				$this->session->set_userdata('estado',$row->estado);
 
 				redirect('usuarios/panelEmp','refresh');
 			}
@@ -118,7 +118,7 @@ class Usuarios extends CI_Controller {
 		}
 	}
 
-	public function logout()
+	public function logoutEmp()
 	{
 		$this->session->sess_destroy();
 		redirect('usuarios/index','refresh');
@@ -129,8 +129,8 @@ class Usuarios extends CI_Controller {
 
 	public function validarusuarioConduc()
 	{
-		$login=$_POST['login'];
-		$password=md5($_POST['codigo']);
+		$login=$_POST['email'];
+		$password=md5($_POST['contrasena']);
 
 		echo $login;
 		echo $password;
@@ -145,10 +145,10 @@ class Usuarios extends CI_Controller {
 			foreach($consulta->result() as $row)
 			{
 
-				$this->session->set_userdata('idAdmin',$row->idAdmin);
-				$this->session->set_userdata('login',$row->login);
+				$this->session->set_userdata('idUsuario',$row->idUsuario);
+				$this->session->set_userdata('email',$row->email);
 				$this->session->set_userdata('tipo',$row->tipo);
-				$this->session->set_userdata('activo',$row->activo);
+				$this->session->set_userdata('estado',$row->estado);
 
 				redirect('usuarios/panelConduc','refresh');
 			}
@@ -172,7 +172,7 @@ class Usuarios extends CI_Controller {
 		}
 	}
 
-	public function logout()
+	public function logoutConduc()
 	{
 		$this->session->sess_destroy();
 		redirect('usuarios/index','refresh');

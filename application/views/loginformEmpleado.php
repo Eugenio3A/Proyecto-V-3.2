@@ -128,11 +128,11 @@
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4"> BIEN VENIDO! Administrador </h1>
+                                        <h1 class="h4 text-gray-900 mb-4"> BIEN VENIDO! </h1>
                                     </div>
                                     
 
-                                    <?php echo form_open_multipart ("usuarios/validarusuarioAdmin"); ?>
+                                    <?php echo form_open_multipart ("usuarios/validarusuarioEmp"); ?>
                                     <form class="user">
                                         <div class="form-group">
                                              <input type="email"  class="form-control" name="email" placeholder="Escribe tu email" required>
@@ -162,7 +162,7 @@
                                         <a class="small" href="<?php echo base_url(); ?>modeloLogin/forgot-password.html">Olvidaste tu contraseña?</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="<?php echo base_url(); ?>index.php/administrador/registrar">Crear nueva Cuenta!</a>
+                                        <a class="small" href="<?php echo base_url(); ?>modeloLogin/index.php/administrador/registrar">Crear nueva Cuenta!</a>
                                     </div>
                                 </div>
                             </div>

@@ -8,10 +8,10 @@ class Usuario_model extends CI_Model {
 	public function validarAdmin($login,$password)
 	{
 		$this->db->select('*');
-		$this->db->from('Administrador');
-		$this->db->where('login',$login);
-		$this->db->where('codigo',$password);
-		$this->db->where('activo','1');
+		$this->db->from('usuarios');
+		$this->db->where('email',$login);
+		$this->db->where('contrasena',$password);
+		$this->db->where('estado','1');
 		return $this->db->get(); //devuelve el resultado
 	}
 
@@ -20,10 +20,10 @@ class Usuario_model extends CI_Model {
 	public function validarEmp($login,$password)
 	{
 		$this->db->select('*');
-		$this->db->from('Administrador');
-		$this->db->where('login',$login);
-		$this->db->where('codigo',$password);
-		$this->db->where('activo','1');
+		$this->db->from('usuarios');
+		$this->db->where('email',$login);
+		$this->db->where('contrasena',$password);
+		$this->db->where('estado','1');
 		return $this->db->get(); //devuelve el resultado
 	}
 
@@ -32,10 +32,10 @@ class Usuario_model extends CI_Model {
 	public function validarConduc($login,$password)
 	{
 		$this->db->select('*');
-		$this->db->from('Administrador');
-		$this->db->where('login',$login);
-		$this->db->where('codigo',$password);
-		$this->db->where('activo','1');
+		$this->db->from('conductores');
+		$this->db->where('email',$login);
+		$this->db->where('contrasena',$password);
+		$this->db->where('estado','1');
 		return $this->db->get(); //devuelve el resultado
 	}
 }

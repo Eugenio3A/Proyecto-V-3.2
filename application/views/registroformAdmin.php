@@ -55,7 +55,7 @@
                     <div class="col-lg-12">
                         <div class="p-5">
                             <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">CREAR UNA CUENTA</h1>
+                                <h1 class="h4 text-gray-900 mb-4">CREAR CUENTA ADMINISTRADOR</h1>
                             </div>
 
                             <?php
