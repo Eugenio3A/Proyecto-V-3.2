@@ -78,7 +78,7 @@ $db ['default'] = array(
 	'hostname' => 'localhost',
 	'username' => 'root',
 	'password' => 'EUjaME=29',
-	'database' => 'bdproyecto',
+	'database' => 'bdproyectoV1',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

@@ -2,7 +2,7 @@
 
 <br>
 
-<a href="<?php echo base_url(); ?>index.php/conductor/curso">
+<a href="<?php echo base_url(); ?>index.php/conductor/listaConductores">
 <button type="button" class="btn btn-warning">VER HABILITADOS</button>
 </a>
 

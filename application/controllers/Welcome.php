@@ -5,8 +5,8 @@ class Welcome extends CI_Controller {
 
 	public function index()
 	{
-		$lista=$this->estudiante_model->listaestudiantes();
-		$data['alumnos']=$lista;
+		$lista=$this->cliente_model->listaclientes();
+		$data['personas']=$lista;
 		$this->load->view('welcome_message',$data);
 	}
 
@@ -17,10 +17,10 @@ class Welcome extends CI_Controller {
 		print_r($execonsulta);
 	}
 	
-	public function curso()
+	public function cliente()
 	{
-		$lista=$this->estudiante_model->listaestudiantes();
-		$data['alumnos']=$lista;
+		$lista=$this->cliente_model->listaclientes();
+		$data['personas']=$lista;
 
 		$this->load->view('inc/head');
 		$this->load->view('inc/menu');

@@ -26,7 +26,7 @@ class Vehiculo extends CI_Controller {
 			$data ['taxis']=$listaV;
 
 			$this->load->view('inc/head');
-			$this->load->view('inc/menuGt');
+			$this->load->view('inc/menu');
 			$this->load->view('listaV',$data);
 			$this->load->view('inc/footer');
 			$this->load->view('inc/pie');		
@@ -44,7 +44,7 @@ class Vehiculo extends CI_Controller {
 		$data['taxis']=$listaV;
 
 		$this->load->view('inc/head');
-		$this->load->view('inc/menuGt');
+		$this->load->view('inc/menu');
 		$this->load->view('deshabilVeiculo',$data);
 		$this->load->view('inc/footer');
 		$this->load->view('inc/pie');
@@ -53,7 +53,7 @@ class Vehiculo extends CI_Controller {
 	public function agregar()
 	{
 		$this->load->view('inc/head');
-		$this->load->view('inc/menuGt');
+		$this->load->view('inc/menu');
 		$this->load->view('formVeiculo');
 		$this->load->view('inc/footer');
 		$this->load->view('inc/pie');

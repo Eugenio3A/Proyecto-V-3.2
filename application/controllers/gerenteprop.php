@@ -11,10 +11,10 @@ class Gerenteprop extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('inc/head');
+		$this->load->view('inc/vistaslte/head');
 		$this->load->view('loginGrt');
-		$this->load->view('inc/footer');
-		$this->load->view('inc/pie');
+		$this->load->view('inc/vistaslte/footer');
+		$this->load->view('inc/vistaslte/test');
 	}
 
 	public function validarusuario1()

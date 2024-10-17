@@ -1,62 +1,118 @@
-<header>
-  <!-- Fixed navbar -->
-  <nav class="navbar navbar-dark bg-dark fixed-top">
-    <div class="container-fluid">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
-      data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <a class="navbar-brand" href="#"></a>
-      <form class="d-flex align-items-center">
-        <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search" style="width: 200px;">
-        <button class="btn btn-outline-light" type="submit">Buscar</button>
-      </form>
-    </div>
-  </nav>
+<div class="sidebar">
+				<div class="scrollbar-inner sidebar-wrapper">
+					<div class="user">
+						<div class="photo">
+							<img src="<?php echo base_url(); ?>aseetsHtml/assets/img/profile.jpg">
+						</div>
+						<div class="info">
+							<a class="" data-toggle="collapse" href="#collapseExample" aria-expanded="true">
+								<span>
+								<h2><?php echo $this->session->userdata('login'); ?></h2>
+									<span class="user-level">Administrator</span>
+									<span class="caret"></span>
+								</span>
+							</a>
+							<div class="clearfix"></div>
 
-  <div class="collapse" id="sidebarMenu">
-    <div class="bg-dark p-4">
-      <ul class="nav flex-column">
-        <li class="nav-item">
-          <a class="nav-link active text-light" aria-current="page" href="<?php echo base_url(); ?>index.php/estudiante/curso">Inicio</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-light" href="<?php echo base_url(); ?>index.php/conductor/curso">rConductor</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-light" href="<?php echo base_url(); ?>index.php/empresa/contactos">Reclamos</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-light" href="<?php echo base_url(); ?>index.php/empresa/contactos">Reservas</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-light" href="<?php echo base_url(); ?>index.php/empresa/contactos">Pagos</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</header>
+							<div class="collapse in" id="collapseExample" aria-expanded="true" style="">
+								<ul class="nav">
+									<li>
+										<a href="#profile">
+											<span class="link-collapse">My Profile</span>
+										</a>
+									</li>
+									<li>
+										<a href="#edit">
+											<span class="link-collapse">Edit Profile</span>
+										</a>
+									</li>
+									<li>
+										<a href="#settings">
+											<span class="link-collapse">Settings</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
 
-<style>
-  body {
-    padding-top: 56px; /* Ajusta este valor si el tamaño de la navbar cambia */
-  }
-  
-  .navbar-toggler {
-    position: fixed;
-    top: 15px;
-    left: 15px;
-    z-index: 1030;
-  }
-  
-  #sidebarMenu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 250px;
-    height: 100%;
-    z-index: 1040;
-    background-color: #343a40; /* Mismo color de la barra superior */
-    transition: transform 0.3s ease-in-out;
-  }
-</style>
+
+					<ul class="nav">
+					<li class="nav-item ">
+							<a href="<?php echo base_url();?>index.php/cliente/listaSolic">
+								<i class="la la-home"></i>
+								<p>Dashboard</p>
+								<span class="badge badge-count">5</span>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="<?php echo base_url();?>index.php/cliente/listaClientes">
+								<i class="la la-user"></i>
+								<p> Lista Cliente</p>
+								<span class="badge badge-count">14</span>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="<?php echo base_url();?>index.php/conductor/listaConductores">
+								<i class="la la-taxi"></i>
+								<p> Lista Conductores</p>
+								<span class="badge badge-count">14</span>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="<?php echo base_url();?>index.php/reservas/movil">
+								<i class="la la-calendar"></i>
+								<p> Reservas</p>
+								<span class="badge badge-count">50</span>
+							</a>
+						</li>
+						<li class="nav-item">
+							
+							<a href="<?php echo base_url(); ?>index.php/pagos/agregar">
+								<i class="la la-money"></i>
+								<p> Pagos</p>
+								<span class="badge badge-count">6</span>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="<?php echo base_url(); ?>aseetsHtml/notifications.html">
+								<i class="la la-bell"></i>
+								<p> Reclamos</p>
+								<span class="badge badge-success">3</span>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="<?php echo base_url(); ?>aseetsHtml/typography.html">
+								<i class="la la-edit"></i>
+								<p> Reportes</p>
+								<span class="badge badge-danger">25</span>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="<?php echo base_url(); ?>aseetsHtml/typography.html">
+								<i class="la la-map"></i>
+								<p>Seguimiento</p>
+								<span class="badge badge-danger">25</span>
+							</a>
+						</li>
+
+						<li class="nav-item">
+							<a href="<?php echo base_url(); ?>aseetsHtml/aseetsHtml/icons.html">
+								<i class="la la-bullhorn"></i>
+								<p> Publicidad</p>
+							</a>
+						</li>
+						<li class="nav-item update-pro">
+						    <a href="<?php echo base_url(); ?>index.php/usuarios/logout">
+							<button  type="button" class="btn btn-primary">
+								<i class="la la-hand-pointer-o"></i>
+								<p>Serrar Secion</p>
+							</button>
+							</a>	
+
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="main-panel">
+				

@@ -26,7 +26,7 @@ class Administrador extends CI_Controller {
             $data['alumnos'] = $lista3;
 
             $this->load->view('inc/head');
-            $this->load->view('inc/menuGt');
+            $this->load->view('inc/menu');
             $this->load->view('lista3', $data);
             $this->load->view('inc/footer');
             $this->load->view('inc/pie');        

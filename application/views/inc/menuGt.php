@@ -18,10 +18,13 @@
     <div class="bg-dark p-4">
       <ul class="nav flex-column">
         <li class="nav-item">
-          <a class="nav-link active text-light" aria-current="page" href="<?php echo base_url(); ?>index.php/gerenteprop">Salir</a>
+          <a class="nav-link active text-light" aria-current="page" href="<?php echo base_url(); ?>index.php/vehiculo/curso">Salir</a>
         </li>
         <li class="nav-item">
           <a class="nav-link active text-light" aria-current="page" href="<?php echo base_url(); ?>index.php/estudiante/curso">administrador</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active text-light" aria-current="page" href="<?php echo base_url(); ?>index.php/Reservas/curso">Reservas</a>
         </li>
       </ul>
     </div>

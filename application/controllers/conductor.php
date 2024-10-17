@@ -26,9 +26,8 @@ class Conductor extends CI_Controller {
             $data['alumnos'] = $lista2;
 
             $this->load->view('inc/head');
-            $this->load->view('inc/menuGt');
+            $this->load->view('inc/menu');
             $this->load->view('lista2', $data);
-            $this->load->view('inc/footer');
             $this->load->view('inc/pie');        
         }
         else
@@ -37,24 +36,35 @@ class Conductor extends CI_Controller {
         }
     }
 
+
+
+    public function listaConductores()
+    {
+        $lista2 = $this->conductor_model->listaconductores();
+        $data['alumnos'] = $lista2;
+
+        $this->load->view('inc/head');
+        $this->load->view('inc/cabeza');
+        $this->load->view('lista2', $data);
+        $this->load->view('inc/pieLis');
+    }
     public function deshabilitados()
     {
         $lista2 = $this->conductor_model->listadeshabilitados1();
         $data['alumnos'] = $lista2;
 
         $this->load->view('inc/head');
-        $this->load->view('inc/menuGt');
+       
         $this->load->view('deshabilconduc', $data);
-        $this->load->view('inc/footer');
+        
         $this->load->view('inc/pie');
     }
 
     public function agregar()
     {
         $this->load->view('inc/head');
-        $this->load->view('inc/menuGt');
+        
         $this->load->view('formconductor');
-        $this->load->view('inc/footer');
         $this->load->view('inc/pie');
     }
 
@@ -70,14 +80,14 @@ class Conductor extends CI_Controller {
         $data['foto'] = $_POST['foto'];
 
         $this->conductor_model->agregarconductores($data);
-        redirect('conductor/curso', 'refresh');
+        redirect('conductor/listaConductores', 'refresh');
     }
 
     public function eliminarbd()
     {
         $id_conductor = $_POST['id_conductor'];
         $this->conductor_model->eliminarconductores($id_conductor);
-        redirect('conductor/curso', 'refresh');
+        redirect('conductor/listaConductores', 'refresh');
     }
 
     public function modificar()
@@ -86,9 +96,7 @@ class Conductor extends CI_Controller {
         $data['infoconductor'] = $this->conductor_model->recuperarconductores($id_conductor);
 
         $this->load->view('inc/head');
-        $this->load->view('inc/menuGt');
         $this->load->view('formmodicond', $data);
-        $this->load->view('inc/footer');
         $this->load->view('inc/pie');
     }
 
@@ -105,7 +113,7 @@ class Conductor extends CI_Controller {
         $data['foto'] = $_POST['foto'];
 
         $this->conductor_model->modificarconductores($id_conductor, $data);
-        redirect('conductor/curso', 'refresh');
+        redirect('conductor/listaConductores', 'refresh');
     }
 
     public function deshabilitarbd()
@@ -114,7 +122,7 @@ class Conductor extends CI_Controller {
         $data['disponible'] = '0';
 
         $this->conductor_model->modificarconductores($id_conductor, $data);
-        redirect('conductor/curso', 'refresh');
+        redirect('conductor/listaConductores', 'refresh');
     }
 
     public function habilitarbd()

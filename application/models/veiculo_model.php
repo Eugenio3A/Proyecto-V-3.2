@@ -3,6 +3,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Veiculo_model extends CI_Model {
 
+	public function get_vehiculos() {
+		$query = $this->db->get('vehiculos'); // 'usuarios' es el nombre de tu tabla
+		return $query->result(); // Devuelve un array de objetos
+	}
 	public function listaveiculo()
 	{
 		$this->db->select('*');

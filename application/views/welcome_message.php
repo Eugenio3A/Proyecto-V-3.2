@@ -94,7 +94,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<tbody>
 		<?php
 		$contador=1;
-		foreach($alumnos->result() as $row)
+		foreach($personas->result() as $row)
 		{
 		?>
 		<tr>
