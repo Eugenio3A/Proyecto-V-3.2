@@ -3,44 +3,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Admin_model extends CI_Model {
 
-	public function listaconductores()
+	public function listausuarioAdmin()
 	{
 		$this->db->select('*');
-		$this->db->from('Administrador');
-		$this->db->where('activo','1');
+		$this->db->from('usuarios');
+		$this->db->where('estado','1');
 		return $this->db->get(); //devuelve el resultado
 	}
 
-	public function listadeshabilitados1()
+	public function listadeshabilitadosAdmin()
 	{
 		$this->db->select('*');
-		$this->db->from('Administrador');
-		$this->db->where('activo','0');
+		$this->db->from('usuarios');
+		$this->db->where('estado','0');
 		return $this->db->get(); //devuelve el resultado
 	}
 
-	public function agregarconductores($data)
+	public function agregarAdmin($data)
 	{
-		$this->db->insert('Administrador',$data);
+		$this->db->insert('usuarios',$data);
 	}
 
-	public function eliminarconductores($idAdmin)
+	public function eliminarAdmin($idUsuario)
 	{
-		$this->db->where('idAdmin',$idAdmin);
-		$this->db->delete('Administrador');
+		$this->db->where('idUsuario',$idUsuario);
+		$this->db->delete('usuarios');
 	}
 
-	public function recuperarconductores($idAdmin)
+	public function recuperarAdmin($idAdmin)
 	{
 		$this->db->select('*');
-		$this->db->from('Administrador');
-		$this->db->where('idAdmin',$idAdmin);
+		$this->db->from('usuarios');
+		$this->db->where('idUsuario',$idUsuario);
 		return $this->db->get(); //devuelve el resultado
 	}
 
-	public function modificarconductores($idAdmin,$data)
+	public function modificarAdmin($idUsuario,$data)
 	{
-		$this->db->where('idAdmin',$idAdmin);
-		$this->db->update('Administrador',$data);
+		$this->db->where('idUsuario',$idUsuario);
+		$this->db->update('usuarios',$data);
 	}
 }

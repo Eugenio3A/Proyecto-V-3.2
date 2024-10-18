@@ -132,10 +132,10 @@
                                     </div>
                                     
 
-                                    <?php echo form_open_multipart ("usuarios/validarusuarioAdmin"); ?>
+                                    <?php echo form_open_multipart ("usuarios/validarusuario"); ?>
                                     <form class="user">
                                         <div class="form-group">
-                                             <input type="email"  class="form-control" name="email" placeholder="Escribe tu email" required>
+                                             <input type="email"  class="form-control" name="cuenta" placeholder="Escribe tu email" required>
                                         </div>
                                         <div class="form-group">
                                              <input type="password" class="form-control" name="contrasena" placeholder="Escribe tu contraseña" required>

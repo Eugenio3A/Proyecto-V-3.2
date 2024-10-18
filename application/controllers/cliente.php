@@ -9,27 +9,7 @@ class Cliente extends CI_Controller {
 		$this->load->view('inc/vistaslte/test');
 		$this->load->view('inc/vistaslte/footer');
 	}
-
-	public function usuario()
-	{
-		if($this->session->userdata('email'))
-		{
-			$lista=$this->cliente_model->listaclientes();
-			$data ['personas']=$lista;
-
-			$this->load->view('inc/head');
-			$this->load->view('inc/menu');
-			$this->load->view('inc/footer');
-			$this->load->view('inc/pie');		
-		}
-		else
-		{
-			redirect('usuarios/index','refresh');
-		}
-
-
-		
-	}
+	
 
 	public function listaClientes()
 	{

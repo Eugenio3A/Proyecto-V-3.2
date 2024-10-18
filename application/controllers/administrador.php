@@ -10,16 +10,25 @@ class Administrador extends CI_Controller {
 
 	public function index()
 	{
-		if($this->session->userdata('tipo')=='admin')
-		{ 
 			$this->load->view('inc/head');
 			$this->load->view('inc/menu');
 			$this->load->view('inc/footer');
 			$this->load->view('inc/pie');
+	}
+
+	public function usuario()
+	{
+		if($this->session->userdata('cuenta'))
+		{
+
+			$this->load->view('inc/head');
+			$this->load->view('inc/menu');
+			$this->load->view('inc/footer');
+			$this->load->view('inc/pie');		
 		}
 		else
 		{
-			redirect('usuarios/panelAdmin', 'refresh');
+			redirect('usuarios/index','refresh');
 		}
 	}
 
@@ -27,7 +36,6 @@ class Administrador extends CI_Controller {
 	{
 		
 			$data['cargos'] = $this->cargos_model->listacargos();
-			
 			
 			$this->load->view('formAdmin', $data);
 			
@@ -37,13 +45,13 @@ class Administrador extends CI_Controller {
 
 	public function registrarbd()
 	{
-		$data['nombre'] = $_POST['nombre'];
-		$data['primerApellido'] = $_POST['primerApellido'];
-		$data['segundoApellido'] = $_POST['segundoApellido'];
+		$data['nombre'] = strtoupper ($_POST['nombre']);
+		$data['primerApellido'] = strtoupper ($_POST['primerApellido']);
+		$data['segundoApellido'] = strtoupper ($_POST['segundoApellido']);
 		$data['ciNit'] = $_POST['ciNit'];
-		$data['email'] = $_POST['email'];
-		$data['contrasena'] = password_hash($_POST['contrasena'], PASSWORD_BCRYPT);  // Para seguridad
-		$data['turno'] = $_POST['turno'];
+		$data['cuenta'] = $_POST['cuenta'];
+		$data['contrasena'] = md5($_POST['contrasena']);  // Para seguridad
+		$data['turno'] = strtoupper ($_POST['turno']);
 
 		$id = $_POST['id'];
 
@@ -64,6 +72,16 @@ class Administrador extends CI_Controller {
 
 		$this->cargos_model->agregarCargo($id, $data);
 		redirect('usuarios/index', 'refresh');
+	}
+
+	public function guest()
+	{
+		if($this->session->userdata('cuenta'))
+		{ 
+			$this->load->view('inc/header');
+			$this->load->view('panelguest');
+			$this->load->view('inc/footer');
+		}
 	}
 
 	public function modificar()

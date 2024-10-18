@@ -18,15 +18,14 @@ class Usuarios extends CI_Controller {
 		$this->load->view('inc/vistaslte/test');
 	}
 
-	// VALIDAR USUARIO ADMINISTRADOR
-	public function validarusuarioAdmin()
+	public function validarusuario()
 	{
-		$login=$_POST['email'];
+		$login=$_POST['cuenta'];
 		$password=md5($_POST['contrasena']);
 
 		echo $login;
 		echo $password;
-		$consulta=$this->usuario_model->validarAdmin($login,$password);
+		$consulta=$this->usuario_model->validar($login,$password);
 
 		echo $consulta->num_rows();
 
@@ -38,11 +37,11 @@ class Usuarios extends CI_Controller {
 			{
 
 				$this->session->set_userdata('idUsuario',$row->idUsuario);
-				$this->session->set_userdata('email',$row->email);
+				$this->session->set_userdata('cuenta',$row->cuenta);
 				$this->session->set_userdata('tipo',$row->tipo);
 				$this->session->set_userdata('estado',$row->estado);
 
-				redirect('usuarios/panelAdmin','refresh');
+				redirect('usuarios/panel','refresh');
 			}
 		}
 		else
@@ -52,11 +51,11 @@ class Usuarios extends CI_Controller {
 		}
 	}
 
-	public function panelAdmin()
+	public function panel()
 	{
-		if($this->session->userdata('email'))
+		if($this->session->userdata('cuenta'))
 		{
-			redirect('cliente/usuario','refresh');
+			redirect('administrador/usuario','refresh');
 		}
 		else
 		{
@@ -64,121 +63,10 @@ class Usuarios extends CI_Controller {
 		}
 	}
 
-	public function logoutAdmin()
+	public function logout()
 	{
 		$this->session->sess_destroy();
 		redirect('usuarios/index','refresh');
 	}
-
-
-	// VALIDAR USUARIO EMPLEADO(OPERADOR)
-
-	public function validarusuarioEmp()
-	{
-		$login=$_POST['email'];
-		$password=md5($_POST['contrasena']);
-
-		echo $login;
-		echo $password;
-		$consulta=$this->usuario_model->validarEmp($login,$password);
-
-		echo $consulta->num_rows();
-
-		if($consulta->num_rows()>0)
-		{
-			echo 'inicio de sesion';
-			//usuario valido
-			foreach($consulta->result() as $row)
-			{
-
-				$this->session->set_userdata('idUsuario',$row->idUsuario);
-				$this->session->set_userdata('email',$row->email);
-				$this->session->set_userdata('tipo',$row->tipo);
-				$this->session->set_userdata('estado',$row->estado);
-
-				redirect('usuarios/panelEmp','refresh');
-			}
-		}
-		else
-		{
-			//acceso incorrecto - volvemos al login
-			redirect('usuarios/index','refresh');
-		}
-	}
-
-	public function panelEmp()
-	{
-		if($this->session->userdata('login'))
-		{
-			redirect('cliente/usuario','refresh');
-		}
-		else
-		{
-			redirect('usuarios/index','refresh');
-		}
-	}
-
-	public function logoutEmp()
-	{
-		$this->session->sess_destroy();
-		redirect('usuarios/index','refresh');
-	}
-
-
-	// VALIDAR USUARIO CONDUCTOR
-
-	public function validarusuarioConduc()
-	{
-		$login=$_POST['email'];
-		$password=md5($_POST['contrasena']);
-
-		echo $login;
-		echo $password;
-		$consulta=$this->usuario_model->validarConduc($login,$password);
-
-		echo $consulta->num_rows();
-
-		if($consulta->num_rows()>0)
-		{
-			echo 'inicio de sesion';
-			//usuario valido
-			foreach($consulta->result() as $row)
-			{
-
-				$this->session->set_userdata('idUsuario',$row->idUsuario);
-				$this->session->set_userdata('email',$row->email);
-				$this->session->set_userdata('tipo',$row->tipo);
-				$this->session->set_userdata('estado',$row->estado);
-
-				redirect('usuarios/panelConduc','refresh');
-			}
-		}
-		else
-		{
-			//acceso incorrecto - volvemos al login
-			redirect('usuarios/index','refresh');
-		}
-	}
-
-	public function panelConduc()
-	{
-		if($this->session->userdata('login'))
-		{
-			redirect('cliente/usuario','refresh');
-		}
-		else
-		{
-			redirect('usuarios/index','refresh');
-		}
-	}
-
-	public function logoutConduc()
-	{
-		$this->session->sess_destroy();
-		redirect('usuarios/index','refresh');
-	}
-
 
 }
-
-

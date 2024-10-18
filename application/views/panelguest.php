@@ -10,7 +10,7 @@
         <button type="submit" name="buton2" class="btn btn-danger">CERRAR SESIÓN</button>
       <?php echo form_close(); ?>
 
-      <h2>Bienvenido <?php echo $this->session->userdata('login'); ?></h2>
+      <h2>Bienvenido <?php echo $this->session->userdata('cuenta'); ?></h2>
 
 
   <footer class="my-5 pt-5 text-muted text-center text-small">

@@ -65,15 +65,15 @@
                             <form class="user">
 
                             <div class="form-group row justify-content-center">
-    <div class="col-sm-8 mb-3 mb-sm-0">
-        <select name="id" class="form-control form-select form-select-lg" required>
-            <option value="" disabled selected>Seleccione una...</option>
-            <?php foreach ($cargos->result() as $row): ?>
-                <option value="<?php echo $row->id; ?>"><?php echo $row->nombreCargo; ?></option>
-            <?php endforeach; ?>
-        </select>
-    </div>
-</div>
+                                <div class="col-sm-8 mb-3 mb-sm-0">
+                                    <select name="id" class="form-control form-select form-select-lg" required>
+                                        <option value="" disabled selected>Seleccione una...</option>
+                                        <?php foreach ($cargos->result() as $row): ?>
+                                    <option value="<?php echo $row->id; ?>"><?php echo $row->nombreCargo; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
   
 
 
@@ -105,7 +105,7 @@
 
 
 <div class="form-group">
-    <input type="email" class="form-control" name="email" placeholder="Escribe email" required>
+    <input type="email" class="form-control" name="cuenta" placeholder="Escribe email" required>
 </div>
 
 <div class="form-group row">
