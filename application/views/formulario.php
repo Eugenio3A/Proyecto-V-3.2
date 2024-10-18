@@ -55,41 +55,38 @@
                     <div class="col-lg-12">
                         <div class="p-5">
                             <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">CREAR UNA CUENTA</h1>
+                                <h1 class="h4 text-gray-900 mb-4">AGREGAR NUEVO CLIENTE</h1>
                             </div>
 
                             <?php
-                                echo form_open_multipart("reservas/agregarbd");
+                                echo form_open_multipart("cliente/agregarbd");
                             ?>
 
                             <form class="user">
 
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control" name="nombre" placeholder="Escribe nombre de Usuario" required>
+                                        <input type="text" class="form-control" name="nombre" placeholder="Escribe nombre o apellido del cliente" required>
                                     </div>
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control" name="familia" placeholder="Escribe Apellido" required>
+                                    <div class="col-sm-6 ">
+                                        <input type="number" min="1000000" max="99999999" class="form-control" name="telefono" placeholder="Escribe numero de telefono/celular" required>
                                     </div>
+
                                     
                                 </div>
 
                                 <div class="form-group row">
-                                    <div class="col-sm-9 mb-3 mb-sm-0">
+                                    <div class="col-sm-12 mb-3 mb-sm-0">
                                         <input type="text" class="form-control" name="direccion" placeholder="Escribe direccion" required>
                                     </div>
-                                    <div class="col-sm-3 ">
-                                        <input type="number" min="1000000" max="99999999" class="form-control" name="telefono" placeholder="Escribe telefono" required>
-                                    </div>
-
                                 </div>
 
                                 <div class="form-group row">
                                     <div class="col-sm-8 mb-3 mb-sm-0">
-                                        <button type="submit" class=" btn btn-success btn-user btn-block">Agregar Cliente Usuario</button>
+                                        <button type="submit" class=" btn btn-success btn-user btn-block">Agregar Cliente</button>
                                     </div>
                                     <div class="col-sm-4">
-                                        <a href="<?php echo base_url(); ?>index.php/cliente/listaCliente">
+                                        <a href="<?php echo base_url(); ?> index.php/cliente/listaCliente">
                                             <button type="button" class="btn btn-warning btn-user btn-block">Cancelar</button>
                                         </a>
                                     </div>

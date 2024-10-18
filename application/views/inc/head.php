@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="main-header">
 		    <div class="logo-header">
 		    
-				<a href="<?php echo base_url();?>index.php/cliente/usuario" class="logo">
+				<a href="<?php echo base_url();?>index.php/administrador/usuario" class="logo">
 					Ready Dashboard
 				</a>
 				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">

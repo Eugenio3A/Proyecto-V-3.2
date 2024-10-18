@@ -15,7 +15,7 @@
 
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 text-gray-800">LISTA DE CLIENTES</h1>
-                    <h2>Bienvenido <?php echo $this->session->userdata('login'); ?></h2>
+                    <h2>Bienvenido <?php echo $this->session->userdata('cuenta'); ?></h2>
 
                      <p class="m-0 font-weight-bold text-primary" ><?php echo date ('Y/m/d H:i:s'); ?></p>
    
@@ -38,9 +38,8 @@
                                    <tr>
                                         <th>No.</th>
                                         <th>Nombre</th>
-                                        <th>Familia</th>
-                                        <th>Dirección</th>
                                         <th>Teléfono</th>
+                                        <th>Dirección</th>
                                         <th>Creado</th>
                                         <th>Modificar</th>
                                         <th>Eliminar</th>
@@ -55,25 +54,24 @@
                                     <tr>
                                         <td><?php echo $contador; ?></td>
                                         <td><?php echo $row->nombre; ?></td>
-                                        <td><?php echo $row->familia; ?></td>
-                                        <td><?php echo $row->direccion; ?></td>
                                         <td><?php echo $row->telefono; ?></td>
+                                        <td><?php echo $row->direccion; ?></td>
                                         <td><?php echo formatearFecha($row->fechaRegistro); ?></td>
                                     <td>
-                                        <?php echo form_open_multipart("cliente/modificar"); ?>
-                                        <input type="hidden" name="id_usuario" value="<?php echo $row->id_usuario; ?>">
+                                        <?php echo form_open_multipart("cliente/modificar");?>
+                                        <input type="hidden" name="idCliente" value="<?php echo $row->idCliente; ?>">
                                         <button type="submit" class="btn btn-success">Modificar</button>
                                         <?php echo form_close(); ?>
                                     </td>
                                     <td>
                                         <?php echo form_open_multipart("cliente/eliminarbd"); ?>
-                                        <input type="hidden" name="id_usuario" value="<?php echo $row->id_usuario; ?>">
+                                        <input type="hidden" name="idCliente" value="<?php echo $row->idCliente; ?>">
                                         <button type="submit" class="btn btn-danger">Eliminar</button>
                                         <?php echo form_close(); ?>
                                     </td>
                                     <td>
                                         <?php echo form_open_multipart("cliente/deshabilitarbd"); ?>
-                                        <input type="hidden" name="id_usuario" value="<?php echo $row->id_usuario; ?>">
+                                        <input type="hidden" name="idCliente" value="<?php echo $row->idCliente; ?>">
                                         <button type="submit" class="btn btn-warning">Deshabilitar</button>
                                         <?php echo form_close(); ?>
                                     </td>

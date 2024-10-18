@@ -11,7 +11,7 @@ class Cliente extends CI_Controller {
 	}
 	
 
-	public function listaClientes()
+	public function listaCliente()
 	{
 		$lista=$this->cliente_model->listaclientes();
 		$data ['personas']=$lista;
@@ -80,7 +80,7 @@ class Cliente extends CI_Controller {
 
 	public function guest()
 	{
-		if($this->session->userdata('login'))
+		if($this->session->userdata ('login'))
 		{ 
 			$this->load->view('inc/header');
 			$this->load->view('panelguest');
@@ -91,10 +91,9 @@ class Cliente extends CI_Controller {
 	public function deshabilitados()
 	{
 		$lista=$this->cliente_model->listadeshabilitados();
-		$data['personas']=$lista;
+		$data['persona']=$lista;
 
 		$this->load->view('inc/head');
-		$this->load->view('inc/menu');
 		$this->load->view('deshabilitados',$data);
 		$this->load->view('inc/pie');
 	}
@@ -102,7 +101,6 @@ class Cliente extends CI_Controller {
 	public function agregar()
 	{
 		$this->load->view('inc/head');
-		$this->load->view('inc/menu');
 		$this->load->view('formulario');
 		$this->load->view('inc/pie');
 	}
@@ -110,59 +108,56 @@ class Cliente extends CI_Controller {
 	public function agregarbd()
 	{
 		$data['nombre']=strtoupper($_POST['nombre']);
-		$data['familia']=strtoupper($_POST['familia']);
-		$data['direccion']=strtoupper($_POST['direccion']);
 		$data['telefono']=$_POST['telefono'];
+		$data['direccion']=strtoupper($_POST['direccion']);
 
 		$this->cliente_model->agregarcliente($data);
-		redirect('cliente/usuario','refresh');
+		redirect('cliente/listaCliente','refresh');
 	}
 
 	public function eliminarbd()
 	{
-		$id_usuario=$_POST['id_usuario'];
-		$this->cliente_model->eliminarcliente($id_usuario);
-		redirect('cliente/usuario','refresh');
+		$idCliente=$_POST['idCliente'];
+		$this->cliente_model->eliminarcliente($idCliente);
+		redirect('cliente/listaCliente','refresh');
 	}
 
 	public function modificar()
 	{
-		$id_usuario=$_POST['id_usuario'];
-		$data['infoestudiante']=$this->cliente_model->recuperarcliente($id_usuario);
+		$idCliente=$_POST['idCliente'];
+		$data['infoestudiante']=$this->cliente_model->recuperarcliente($idCliente);
 
 		$this->load->view('inc/head');
-		$this->load->view('inc/menu');
 		$this->load->view('formmodificar',$data);
 		$this->load->view('inc/pie');
 	}
 
 	public function modificarbd()
 	{
-		$id_usuario=$_POST['id_usuario'];
+		$idCliente=$_POST['idCliente'];
 		$data['nombre']=strtoupper($_POST['nombre']);
-		$data['familia']=strtoupper($_POST['familia']);
-		$data['direccion']=strtoupper($_POST['direccion']);
 		$data['telefono']=$_POST['telefono'];
-
-		$this->cliente_model->modificarcliente($id_usuario,$data);
-		redirect('cliente/usuario','refresh');
+		$data['direccion']=strtoupper($_POST['direccion']);
+		
+		$this->cliente_model->modificarcliente($idCliente,$data);
+		redirect('cliente/listaCliente','refresh');
 	}
 
 	public function deshabilitarbd()
 	{
-		$id_usuario=$_POST['id_usuario'];
-		$data['activo']='0';
+		$idCliente=$_POST['idCliente'];
+		$data['habilitado']='0';
 
-		$this->cliente_model->modificarcliente($id_usuario,$data);
-		redirect('cliente/usuario','refresh');
+		$this->cliente_model->modificarcliente($idCliente,$data);
+		redirect('cliente/listaCliente','refresh');
 	}
 
 	public function habilitarbd()
 	{
-		$id_usuario=$_POST['id_usuario'];
-		$data['activo']='1';
+		$idCliente=$_POST['idCliente'];
+		$data['habilitado']='1';
 
-		$this->cliente_model->modificarcliente($id_usuario,$data);
+		$this->cliente_model->modificarcliente($idCliente,$data);
 		redirect('cliente/deshabilitados','refresh');
 	}
 

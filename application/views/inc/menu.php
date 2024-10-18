@@ -7,7 +7,7 @@
 						<div class="info">
 							<a class="" data-toggle="collapse" href="#collapseExample" aria-expanded="true">
 								<span>
-								<h2><?php echo $this->session->userdata('login'); ?></h2>
+								<h2><?php echo $this->session->userdata('nombre'); ?></h2>
 									<span class="user-level">Administrator</span>
 									<span class="caret"></span>
 								</span>
@@ -46,7 +46,7 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="<?php echo base_url();?>index.php/cliente/listaClientes">
+							<a href="<?php echo base_url();?>index.php/cliente/listaCliente">
 								<i class="la la-user"></i>
 								<p> Lista Cliente</p>
 								<span class="badge badge-count">14</span>
