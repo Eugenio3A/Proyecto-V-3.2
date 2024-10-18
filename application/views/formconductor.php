@@ -1,49 +1,18 @@
-<br><br>
-<h1>AGREGAR CONDUCTOR</h1>
-<br>
-
-<?php
-echo form_open_multipart("conductor/agregarbd2");
-?>
-
-<input type="text" class="form-control" name="nombre" placeholder="Escribe nombre" required>
-<input type="text" class="form-control" name="primerApellido" placeholder="Escribe primer Apellido" minlength="3" maxlength="20" required>
-<input type="text" class="form-control" name="segundoApellido" placeholder="Escribe segundo Apellido" minlength="3" maxlength="20" required>
-<input type="text" class="form-control" name="licencia" placeholder="Escribe numero de licencia" required>
-<input type="number" min="1000000" max="99999999" class="form-control" name="telefono" placeholder="Escribe telefono" required>
-<input type="text" class="form-control" name="domicilio" placeholder="Escribe direccion de domicilio" required>
-<input type="text" class="form-control" name="antecedentes" placeholder="Escribe antecedentes" required>
-<input type="text" class="form-control" name="foto" placeholder="Inserte foto del conductor">
-
-<button type="submit" class="btn btn-success">Agregar Conductor</button>
-
-<?php
-echo form_close();
-?>
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title>Registrar conductor</title>
 
     <!-- Custom fonts for this template-->
-    <link href=" <?php echo base_url(); ?>modeloLogin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-
-    <!-- Custom styles for this template-->
-    <link href=" <?php echo base_url(); ?>modeloLogin/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>modeloLogin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link href="<?php echo base_url(); ?>modeloLogin/css/sb-admin-2.min.css" rel="stylesheet">
 
     <style>
         /* Estilos personalizados para llenar la pantalla y centrar el formulario */
@@ -73,24 +42,19 @@ echo form_close();
 
         <div class="card o-hidden border-0 shadow-lg">
             <div class="card-body p-0">
-                <!-- Nested Row within Card Body -->
                 <div class="row">
-                    <!-- Se elimina la clase que oculta la imagen en pantallas pequeñas -->
                     <div class="col-lg-12">
                         <div class="p-5">
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">AGREGAR NUEVO CONDUCTOR</h1>
                             </div>
 
-                            <?php
-                                echo form_open_multipart("conductor/agregarbd2");
-                            ?>
-
+                            <?php echo form_open_multipart("conductor/agregarbd2"); ?>
                             <form class="user">
 
                                 <div class="form-group row">
                                     <div class="col-sm-4 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control" name="nombre" placeholder="Escribe nombre de Administrador" required>
+                                        <input type="text" class="form-control" name="nombre" placeholder="Escribe nombre del Conductor" required>
                                     </div>
                                     <div class="col-sm-4">
                                         <input type="text" class="form-control" name="primerApellido" placeholder="Escribe Primer Apellido" required>
@@ -102,36 +66,86 @@ echo form_close();
 
                                 <div class="form-group row">
                                     <div class="col-sm-4 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control" name="licencia" placeholder=" número de Lic" required>
+                                        <input type="text" class="form-control" name="licencia" placeholder="Número de Licencia" required>
                                     </div>
                                     <div class="col-sm-4">
-                                        <select class="form-control" name="cargo" required>
-                                            <option value="">Selecciona Observaciones</option>
-                                            <option value="mañana">Sin Antesedentes</option>
-                                            <option value="tarde">Con Antesedentes</option>
-                                            <option value="noche">En Proseso</option>
-                                        </select>
+                                        <input type="number" min="1000000" max="99999999" class="form-control" name="telefono" placeholder="Número de Teléfono" required>
                                     </div>
                                     <div class="col-sm-4 mb-3 mb-sm-0">
-                                        <input type="number" min="1000000" max="99999999" class="form-control" name="telefono" placeholder="Numero de telefono" required>
+                                        <input type="text" class="form-control" name="foto" placeholder="Inserte Foto del Conductor">
                                     </div>
-
                                 </div>
 
                                 <div class="form-group row">
-                                    <div class="col-sm-9 mb-6 mb-sm-0">
-                                        <input type="text" class="form-control" name="domicilio" placeholder="Escribe direccion de domicilio" required>
+                                    <div class="col-sm-9 mb-3 mb-sm-0">
+                                        <input type="text" class="form-control" name="domicilio" placeholder="Escribe Dirección de Domicilio" required>
                                     </div>
                                     <div class="col-sm-3">
-                                        <input type="text" class="form-control" name="foto" placeholder="Inserte foto del conductor">
+                                        <select class="form-control" name="esPropietario" id="esPropietario" required>
+                                            <option value="">¿Es Propietario del Vehículo?</option>
+                                            <option value="1">Sí</option>
+                                            <option value="0">No</option>
+                                        </select>
                                     </div>
-                                    
                                 </div>
 
-                                
+                                <div id="infoVehiculo" style="display: none;">
+                                    <h5 class="text-gray-900 mb-4">Información del Vehículo</h5>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6 mb-3 mb-sm-0">
+                                            <input type="text" class="form-control" name="identificador" placeholder="Identificador del Vehículo" required>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" name="placa" placeholder="Placa del Vehículo" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6 mb-3 mb-sm-0">
+                                            <input type="text" class="form-control" name="marca" placeholder="Marca del Vehículo" required>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" name="modelo" placeholder="Modelo del Vehículo" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-6 mb-3 mb-sm-0">
+                                            <input type="number" class="form-control" name="anio" placeholder="Año del Vehículo" required>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <input type="text" class="form-control" name="color" placeholder="Color del Vehículo">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="infoPropietario" style="display: none;">
+                                    <h5 class="text-gray-900 mb-4">Información del Propietario</h5>
+                                    <div class="form-group row">
+                                        <div class="col-sm-4 mb-3 mb-sm-0">
+                                            <input type="text" class="form-control" name="ciNit" placeholder="CI o NIT del Propietario" required>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" name="nombre" placeholder="Nombre del Propietario" required>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" name="primerApellido" placeholder="Primer Apellido" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-sm-4 mb-3 mb-sm-0">
+                                            <input type="text" class="form-control" name="segundoApellido" placeholder="Segundo Apellido">
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" name="telefono" placeholder="Teléfono del Propietario" required>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input type="text" class="form-control" name="direccion" placeholder="Dirección del Propietario">
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="form-group row">
                                     <div class="col-sm-8 mb-3 mb-sm-0">
-                                        <button type="submit" class=" btn btn-success btn-user btn-block">Agregar Conductor</button>
+                                        <button type="submit" class="btn btn-success btn-user btn-block">Agregar Conductor</button>
                                     </div>
                                     <div class="col-sm-4">
                                         <a href="<?php echo base_url(); ?>index.php/conductor/listaConductores">
@@ -140,17 +154,12 @@ echo form_close();
                                     </div>
                                 </div>
 
-                                
                                 <hr>
-            
                             </form>
 
                             <hr>
 
-                            <?php
-                                echo form_close();
-                            ?>
-
+                            <?php echo form_close(); ?>
                         </div>
                     </div>
                 </div>
@@ -160,15 +169,23 @@ echo form_close();
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src=" <?php echo base_url(); ?>modeloLogin/vendor/jquery/jquery.min.js"></script>
-    <script src=" <?php echo base_url(); ?>modeloLogin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="<?php echo base_url(); ?>modeloLogin/vendor/jquery/jquery.min.js"></script>
+    <script src="<?php echo base_url(); ?>modeloLogin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src=" <?php echo base_url(); ?>modeloLogin/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="<?php echo base_url(); ?>modeloLogin/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src=" <?php echo base_url(); ?>modeloLogin/js/sb-admin-2.min.js"></script>
+    <script src="<?php echo base_url(); ?>modeloLogin/js/sb-admin-2.min.js"></script>
 
+    <script>
+        // Mostrar u ocultar los campos del vehículo y propietario según la selección
+        document.getElementById('esPropietario').addEventListener('change', function () {
+            var esPropietario = this.value;
+            document.getElementById('infoVehiculo').style.display = (esPropietario == '1') ? 'block' : 'none';
+            document.getElementById('infoPropietario').style.display = (esPropietario == '0') ? 'block' : 'none';
+        });
+    </script>
 </body>
 
 </html>
