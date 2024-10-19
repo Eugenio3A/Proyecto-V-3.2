@@ -68,14 +68,14 @@
 						</li>
 						<li class="nav-item">
 							
-							<a href="<?php echo base_url(); ?>index.php/pagos/agregar">
+							<a href="<?php echo base_url(); ?>index.php/pagos/index">
 								<i class="la la-money"></i>
 								<p> Pagos</p>
 								<span class="badge badge-count">6</span>
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="<?php echo base_url(); ?>aseetsHtml/notifications.html">
+							<a href="<?php echo base_url(); ?>index.php/reclamos/listarReclamos">
 								<i class="la la-bell"></i>
 								<p> Reclamos</p>
 								<span class="badge badge-success">3</span>

@@ -86,7 +86,7 @@
                                         <button type="submit" class=" btn btn-success btn-user btn-block">Agregar Cliente</button>
                                     </div>
                                     <div class="col-sm-4">
-                                        <a href="<?php echo base_url(); ?> index.php/cliente/listaCliente">
+                                        <a href="<?php echo base_url(); ?>index.php/cliente/listaCliente">
                                             <button type="button" class="btn btn-warning btn-user btn-block">Cancelar</button>
                                         </a>
                                     </div>

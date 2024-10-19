@@ -148,6 +148,4 @@
             </div>
             <!-- End of Content Wrapper -->
 
-        </div>
-    </div>
-</div>
+

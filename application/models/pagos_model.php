@@ -11,12 +11,15 @@ class Pagos_model extends CI_Model {
     }
 
     // Obtener todos los pagos o un pago específico
-    public function obtener_pagos() {
-        
-			$query = $this->db->get('pagos');
-			return $query->result(); // Asegúrate de retornar un array de resultados
-		
-		
+    public function obtener_pagos($id_pago = null) {
+        if ($id_pago) {
+            $this->db->where('id_pago', $id_pago);
+            $query = $this->db->get('pagos');
+            return $query->row(); // Devuelve un solo resultado
+        } else {
+            $query = $this->db->get('pagos');
+            return $query->result(); // Retorna un array de resultados
+        }
     }
 
     // Actualizar un pago
