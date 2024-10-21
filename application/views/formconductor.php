@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="utf-8">
@@ -15,7 +15,6 @@
     <link href="<?php echo base_url(); ?>modeloLogin/css/sb-admin-2.min.css" rel="stylesheet">
 
     <style>
-        /* Estilos personalizados para llenar la pantalla y centrar el formulario */
         .full-height {
             height: 100vh;
             display: flex;
@@ -28,8 +27,8 @@
         }
 
         .card {
-            width: 100%; /* Asegura que la tarjeta ocupe todo el ancho posible */
-            max-width: 700px; /* Limita el ancho máximo */
+            width: 100%;
+            max-width: 700px;
             margin: 0 auto;
         }
     </style>
@@ -49,117 +48,115 @@
                                 <h1 class="h4 text-gray-900 mb-4">AGREGAR NUEVO CONDUCTOR</h1>
                             </div>
 
+                            <!-- Formulario para agregar nuevo conductor -->
                             <?php echo form_open_multipart("conductor/agregarbd2"); ?>
-                            <form class="user">
 
+                            <div class="form-group row">
+                                <div class="col-sm-4 mb-3 mb-sm-0">
+                                    <input type="text" class="form-control" name="nombre" placeholder="Nombre del Conductor" required>
+                                </div>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" name="primerApellido" placeholder="Primer Apellido" required>
+                                </div>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" name="segundoApellido" placeholder="Segundo Apellido">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-4 mb-3 mb-sm-0">
+                                    <input type="text" class="form-control" name="licencia" placeholder="Número de Licencia" required>
+                                </div>
+                                <div class="col-sm-4">
+                                    <input type="number" min="1000000" max="99999999" class="form-control" name="telefono" placeholder="Teléfono" required>
+                                </div>
+                                <div class="col-sm-4 mb-3 mb-sm-0">
+                                    <input type="file" class="form-control" name="foto" >
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-sm-9 mb-3 mb-sm-0">
+                                    <input type="text" class="form-control" name="domicilio" placeholder="Dirección del Conductor" required>
+                                </div>
+                                <div class="col-sm-3">
+                                    <select class="form-control" name="detalleConductor" id="detalleConductor" required>
+                                        <option value="">¿Es Propietario del Vehículo?</option>
+                                        <option value="1">Sí</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Información del vehículo -->
+                            <div id="infoVehiculo" style="display: none;">
+                                <h5 class="text-gray-900 mb-4">Información del Vehículo</h5>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="text" class="form-control" name="identificador" placeholder="Identificador del Vehículo">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="placa" placeholder="Placa del Vehículo">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="text" class="form-control" name="marca" placeholder="Marca del Vehículo">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="modelo" placeholder="Modelo del Vehículo">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <input type="number" class="form-control" name="anio" placeholder="Año del Vehículo">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" class="form-control" name="color" placeholder="Color del Vehículo">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Información del propietario -->
+                            <div id="infoPropietario" style="display: none;">
+                                <h5 class="text-gray-900 mb-4">Información del Propietario</h5>
                                 <div class="form-group row">
                                     <div class="col-sm-4 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control" name="nombre" placeholder="Escribe nombre del Conductor" required>
+                                        <input type="text" class="form-control" name="ciNitPropietario" placeholder="CI o NIT del Propietario">
                                     </div>
                                     <div class="col-sm-4">
-                                        <input type="text" class="form-control" name="primerApellido" placeholder="Escribe Primer Apellido" required>
+                                        <input type="text" class="form-control" name="nombrePropietario" placeholder="Nombre del Propietario">
                                     </div>
                                     <div class="col-sm-4">
-                                        <input type="text" class="form-control" name="segundoApellido" placeholder="Escribe Segundo Apellido">
+                                        <input type="text" class="form-control" name="primerApellidoPropietario" placeholder="Primer Apellido">
                                     </div>
                                 </div>
-
                                 <div class="form-group row">
                                     <div class="col-sm-4 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control" name="licencia" placeholder="Número de Licencia" required>
+                                        <input type="text" class="form-control" name="segundoApellidoPropietario" placeholder="Segundo Apellido">
                                     </div>
                                     <div class="col-sm-4">
-                                        <input type="number" min="1000000" max="99999999" class="form-control" name="telefono" placeholder="Número de Teléfono" required>
-                                    </div>
-                                    <div class="col-sm-4 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control" name="foto" placeholder="Inserte Foto del Conductor">
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <div class="col-sm-9 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control" name="domicilio" placeholder="Escribe Dirección de Domicilio" required>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <select class="form-control" name="esPropietario" id="esPropietario" required>
-                                            <option value="">¿Es Propietario del Vehículo?</option>
-                                            <option value="1">Sí</option>
-                                            <option value="0">No</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div id="infoVehiculo" style="display: none;">
-                                    <h5 class="text-gray-900 mb-4">Información del Vehículo</h5>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                            <input type="text" class="form-control" name="identificador" placeholder="Identificador del Vehículo" required>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <input type="text" class="form-control" name="placa" placeholder="Placa del Vehículo" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                            <input type="text" class="form-control" name="marca" placeholder="Marca del Vehículo" required>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <input type="text" class="form-control" name="modelo" placeholder="Modelo del Vehículo" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="col-sm-6 mb-3 mb-sm-0">
-                                            <input type="number" class="form-control" name="anio" placeholder="Año del Vehículo" required>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <input type="text" class="form-control" name="color" placeholder="Color del Vehículo">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div id="infoPropietario" style="display: none;">
-                                    <h5 class="text-gray-900 mb-4">Información del Propietario</h5>
-                                    <div class="form-group row">
-                                        <div class="col-sm-4 mb-3 mb-sm-0">
-                                            <input type="text" class="form-control" name="ciNit" placeholder="CI o NIT del Propietario" required>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <input type="text" class="form-control" name="nombre" placeholder="Nombre del Propietario" required>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <input type="text" class="form-control" name="primerApellido" placeholder="Primer Apellido" required>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row">
-                                        <div class="col-sm-4 mb-3 mb-sm-0">
-                                            <input type="text" class="form-control" name="segundoApellido" placeholder="Segundo Apellido">
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <input type="text" class="form-control" name="telefono" placeholder="Teléfono del Propietario" required>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <input type="text" class="form-control" name="direccion" placeholder="Dirección del Propietario">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <div class="col-sm-8 mb-3 mb-sm-0">
-                                        <button type="submit" class="btn btn-success btn-user btn-block">Agregar Conductor</button>
+                                        <input type="number" min="1000000" max="99999999" class="form-control" name="telefonoPropietario" placeholder="Teléfono del Propietario">
                                     </div>
                                     <div class="col-sm-4">
-                                        <a href="<?php echo base_url(); ?>index.php/conductor/listaConductores">
-                                            <button type="button" class="btn btn-warning btn-user btn-block">Cancelar</button>
-                                        </a>
+                                        <input type="text" class="form-control" name="direccionPropietario" placeholder="Dirección del Propietario">
                                     </div>
                                 </div>
+                            </div>
 
-                                <hr>
-                            </form>
-
-                            <hr>
+                            <div class="form-group row">
+                                <div class="col-sm-8 mb-3 mb-sm-0">
+                                    <button type="submit" class="btn btn-success btn-user btn-block">Agregar Conductor</button>
+                                </div>
+                                <div class="col-sm-4">
+                                    <a href="<?php echo base_url(); ?>index.php/conductor/listaConductores">
+                                        <button type="button" class="btn btn-warning btn-user btn-block">Cancelar</button>
+                                    </a>
+                                </div>
+                            </div>
 
                             <?php echo form_close(); ?>
+
                         </div>
                     </div>
                 </div>
@@ -179,13 +176,14 @@
     <script src="<?php echo base_url(); ?>modeloLogin/js/sb-admin-2.min.js"></script>
 
     <script>
-        // Mostrar u ocultar los campos del vehículo y propietario según la selección
-        document.getElementById('esPropietario').addEventListener('change', function () {
+        // Mostrar u ocultar campos del vehículo y propietario según la selección
+        document.getElementById('detalleConductor').addEventListener('change', function() {
             var esPropietario = this.value;
             document.getElementById('infoVehiculo').style.display = (esPropietario == '1') ? 'block' : 'none';
             document.getElementById('infoPropietario').style.display = (esPropietario == '0') ? 'block' : 'none';
         });
     </script>
+
 </body>
 
 </html>

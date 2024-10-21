@@ -22,12 +22,11 @@ class Conductor extends CI_Controller {
     {
         if ($this->session->userdata('cuenta')) {
             // Cargar lista de conductores con detalles de vehículos y propietarios
-            $lista2 = $this->conductor_model->listaconductoresConDetalles();
-            $data['conductores'] = $lista2;
-
+            $data['conductores'] = $this->conductor_model->listaconductoresConDetalles();
+            
             $this->load->view('inc/head');
             $this->load->view('inc/cabeza');
-            $this->load->view('lista2', $data); // Cambia 'lista2' si tu vista tiene otro nombre
+            $this->load->view('lista2', $data);
             $this->load->view('inc/pieLis');
         } else {
             redirect('gerentpro/index', 'refresh');
@@ -36,8 +35,7 @@ class Conductor extends CI_Controller {
 
     public function deshabilitados()
     {
-        $listaConductoresDeshabilitados = $this->conductor_model->listadeshabilitados1();
-        $data['conductores'] = $listaConductoresDeshabilitados;
+        $data['conductores'] = $this->conductor_model->listadeshabilitados1();
 
         $this->load->view('inc/head');
         $this->load->view('deshabilconduc', $data);
@@ -46,45 +44,47 @@ class Conductor extends CI_Controller {
 
     public function agregar()
     {
-        
         $this->load->view('formconductor');
         $this->load->view('inc/pie');
     }
 
     public function agregarbd2()
     {
+        // Obtener datos del formulario
         $data = [
             'nombre' => strtoupper($this->input->post('nombre')),
             'primerApellido' => strtoupper($this->input->post('primerApellido')),
             'segundoApellido' => strtoupper($this->input->post('segundoApellido')),
-            'licencia' => $this->input->post('licencia'),
-            'telefono' => $this->input->post('telefono'),
-            'domicilio' => $this->input->post('domicilio'),
-            'antecedentes' => $this->input->post('antecedentes'),
             'foto' => $this->input->post('foto'),
-            'detalleConductor' => $this->input->post('detalleConductor') // Campo para saber si es propietario
+            'detalleConductor' => $this->input->post('esPropietario') == 1 ? 'propietario' : 'conductor',
+            'estado' => 1 // Por defecto, el conductor está habilitado
         ];
 
         // Agregar conductor y obtener el ID
         $idConductor = $this->conductor_model->agregarconductores($data);
 
-        if ($data['detalleConductor'] == 1) {
-            // Si es propietario, también agregar el vehículo
-            $vehiculoData = [
-                'conductor_id' => $idConductor,
-                'identificador' => $this->input->post('identificador'),
-                'foto' => $this->input->post('fotoVehiculo'),
-                'marca' => $this->input->post('marca'),
-                'modelo' => $this->input->post('modelo'),
-                'anio' => $this->input->post('anio'),
-                'color' => $this->input->post('color'),
-                'placa' => $this->input->post('placa')
-            ];
+        // Verificar si es propietario
+        $esPropietario = $this->input->post('esPropietario');
+
+        // Datos del vehículo
+        $vehiculoData = [
+            'conductor_id' => $idConductor,
+            'identificador' => $this->input->post('identificador'),
+            'foto' => $this->input->post('fotoVehiculo'),
+            'marca' => $this->input->post('marca'),
+            'modelo' => $this->input->post('modelo'),
+            'anio' => $this->input->post('anio'),
+            'color' => $this->input->post('color'),
+            'placa' => $this->input->post('placa')
+        ];
+
+        if ($esPropietario == 1) {
+            // Si es propietario, agregar el vehículo
             $this->conductor_model->agregarVehiculo($vehiculoData);
         } else {
             // Si no es propietario, agregar el propietario del vehículo
             $propietarioData = [
-                'ciNit' => $this->input->post('ciNitPropietario'),
+                'ciNit' => $this->input->post('ciNit'),
                 'nombre' => strtoupper($this->input->post('nombrePropietario')),
                 'primerApellido' => strtoupper($this->input->post('primerApellidoPropietario')),
                 'segundoApellido' => strtoupper($this->input->post('segundoApellidoPropietario')),
@@ -92,18 +92,8 @@ class Conductor extends CI_Controller {
                 'direccion' => $this->input->post('direccionPropietario')
             ];
             $idPropietario = $this->conductor_model->agregarPropietario($propietarioData);
-
-            // Relacionar el propietario con el vehículo
-            $vehiculoData = [
-                'conductor_id' => $idConductor,
-                'identificador' => $this->input->post('identificador'),
-                'foto' => $this->input->post('fotoVehiculo'),
-                'marca' => $this->input->post('marca'),
-                'modelo' => $this->input->post('modelo'),
-                'anio' => $this->input->post('anio'),
-                'color' => $this->input->post('color'),
-                'placa' => $this->input->post('placa')
-            ];
+            
+            // Agregar el vehículo relacionado
             $idVehiculo = $this->conductor_model->agregarVehiculo($vehiculoData);
 
             // Relacionar el vehículo y el propietario
@@ -113,59 +103,49 @@ class Conductor extends CI_Controller {
         redirect('conductor/listaConductores', 'refresh');
     }
 
-    public function eliminarbd()
+    public function editar($id)
     {
-        $idConductor = $this->input->post('idConductor');
-        $this->conductor_model->eliminarconductores($idConductor);
-        redirect('conductor/listaConductores', 'refresh');
-    }
-
-    public function modificar()
-    {
-        $idConductor = $this->input->post('idConductor');
-        $data['infoconductor'] = $this->conductor_model->recuperarconductores($idConductor);
-
-        // Cargar información del vehículo si es propietario
-        $data['vehiculo'] = $this->conductor_model->obtenerVehiculoPorConductor($idConductor);
-
-        $this->load->view('inc/head');
-        $this->load->view('formmodicond', $data);
+        // Cargar datos del conductor para editar
+        $data['conductor'] = $this->conductor_model->obtenerConductorPorId($id);
+        $this->load->view('editar_conductor', $data);
         $this->load->view('inc/pie');
     }
 
-    public function modificarbd()
+    public function actualizar($id)
     {
-        $idConductor = $this->input->post('idConductor');
+        // Obtener datos del formulario
         $data = [
             'nombre' => strtoupper($this->input->post('nombre')),
             'primerApellido' => strtoupper($this->input->post('primerApellido')),
             'segundoApellido' => strtoupper($this->input->post('segundoApellido')),
-            'licencia' => $this->input->post('licencia'),
-            'telefono' => $this->input->post('telefono'),
-            'domicilio' => $this->input->post('domicilio'),
-            'antecedentes' => $this->input->post('antecedentes'),
-            'foto' => $this->input->post('foto')
+            'foto' => $this->input->post('foto'),
+            'estado' => $this->input->post('estado')
         ];
 
-        $this->conductor_model->modificarconductores($idConductor, $data);
+        // Actualizar conductor
+        $this->conductor_model->actualizarConductor($id, $data);
+
         redirect('conductor/listaConductores', 'refresh');
     }
 
-    public function deshabilitarbd()
+    public function eliminar($id)
     {
-        $idConductor = $this->input->post('idConductor');
-        $data['disponible'] = '0';
-
-        $this->conductor_model->modificarconductores($idConductor, $data);
+        // Eliminar conductor
+        $this->conductor_model->eliminarConductor($id);
         redirect('conductor/listaConductores', 'refresh');
     }
 
-    public function habilitarbd()
+    public function deshabilitar($id)
     {
-        $idConductor = $this->input->post('idConductor');
-        $data['disponible'] = '1';
+        // Cambiar el estado a deshabilitado
+        $this->conductor_model->cambiarEstadoConductor($id, 0); // 0 para deshabilitar
+        redirect('conductor/listaConductores', 'refresh');
+    }
 
-        $this->conductor_model->modificarconductores($idConductor, $data);
+    public function habilitar($id)
+    {
+        // Cambiar el estado a habilitado
+        $this->conductor_model->cambiarEstadoConductor($id, 1); // 1 para habilitar
         redirect('conductor/deshabilitados', 'refresh');
     }
 }

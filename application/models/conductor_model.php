@@ -8,18 +8,18 @@ class Conductor_model extends CI_Model {
         $this->db->select('*');
         $this->db->from('conductores');
         $this->db->where('estado', '1'); // Asegúrate de que el estado sea correcto
-        return $this->db->get(); // Devuelve el resultado
+        return $this->db->get()->result(); // Devuelve el resultado como un array de objetos
     }
 
     public function listaconductoresConDetalles()
     {
         $this->db->select('c.*, v.*, p.*');
         $this->db->from('conductores c');
-        $this->db->join('vehiculos v', 'v.conductor_id = c.idConductor'); // Unir con vehículos
-        $this->db->join('vehiculo_propietario vp', 'vp.vehiculo_id = v.idVehiculo'); // Unir con propietario
-        $this->db->join('propietarioVehiculo p', 'p.idPropietario = vp.propietario_id'); // Unir con propietarios
+        $this->db->join('vehiculos v', 'v.conductor_id = c.idConductor', 'left'); // Unir con vehículos
+        $this->db->join('vehiculo_propietario vp', 'vp.vehiculo_id = v.idVehiculo', 'left'); // Unir con propietario
+        $this->db->join('propietarioVehiculo p', 'p.idPropietario = vp.propietario_id', 'left'); // Unir con propietarios
         $this->db->where('c.estado', '1'); // Asegúrate de que el estado sea correcto
-        return $this->db->get(); // Devuelve el resultado
+        return $this->db->get()->result(); // Devuelve el resultado como un array de objetos
     }
 
     public function listadeshabilitados1()
@@ -27,7 +27,7 @@ class Conductor_model extends CI_Model {
         $this->db->select('*');
         $this->db->from('conductores');
         $this->db->where('estado', '0'); // Cambia 'disponible' a 'estado'
-        return $this->db->get(); // Devuelve el resultado
+        return $this->db->get()->result(); // Devuelve el resultado como un array de objetos
     }
 
     public function agregarconductores($data)
@@ -62,7 +62,7 @@ class Conductor_model extends CI_Model {
         $this->db->select('*');
         $this->db->from('conductores');
         $this->db->where('idConductor', $id_conductor);
-        return $this->db->get(); // Devuelve el resultado
+        return $this->db->get()->row(); // Devuelve un solo resultado
     }
 
     public function modificarconductores($id_conductor, $data)
@@ -82,6 +82,6 @@ class Conductor_model extends CI_Model {
         $this->db->select('*');
         $this->db->from('vehiculos');
         $this->db->where('conductor_id', $id_conductor);
-        return $this->db->get(); // Devuelve el resultado
+        return $this->db->get()->result(); // Devuelve el resultado como un array de objetos
     }
 }
