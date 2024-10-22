@@ -46,6 +46,13 @@
 							</a>
 						</li>
 						<li class="nav-item">
+							<a href="<?php echo base_url();?>index.php/whatsapp/enviar_mensaje">
+								<i class="la la-weixin"></i>
+								<p> Solicitudes</p>
+								<span class="badge badge-count">14</span>
+							</a>
+						</li>
+						<li class="nav-item">
 							<a href="<?php echo base_url();?>index.php/cliente/listaCliente">
 								<i class="la la-user"></i>
 								<p> Lista Cliente</p>
