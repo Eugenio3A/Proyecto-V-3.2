@@ -46,7 +46,7 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="<?php echo base_url();?>index.php/whatsapp/enviar_mensaje">
+							<a href="<?php echo base_url();?>index.php/solicitudController/registrar_solicitud">
 								<i class="la la-weixin"></i>
 								<p> Solicitudes</p>
 								<span class="badge badge-count">14</span>
@@ -82,7 +82,7 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="<?php echo base_url(); ?>index.php/reclamos/listarReclamos">
+							<a href="<?php echo base_url(); ?>index.php/reclamos/index">
 								<i class="la la-bell"></i>
 								<p> Reclamos</p>
 								<span class="badge badge-success">3</span>

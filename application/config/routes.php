@@ -51,8 +51,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'administrador/usuario';
 
-$route['whatsapp'] = 'whatsapp/index';
-$route['whatsapp/enviar_mensaje'] = 'whatsapp/enviar_mensaje_post';
+$route['solicitud/registrar/(:any)/(:any)'] = 'SolicitudController/registrar_solicitud/$1/$2';
+$route['solicitud/agregar_cliente'] = 'SolicitudController/formulario_agregar_cliente';
 
 $route['pagos'] = 'pagos/index';
 $route['pagos/agregar'] = 'pagos/agregar';
@@ -60,6 +60,11 @@ $route['pagos/editar/(:num)'] = 'pagos/editar/$1';
 $route['pagos/eliminar/(:num)'] = 'pagos/eliminar/$1';
 $route['reservas/eliminar/(:num)'] = 'reservas/eliminar/$1';
 $route['pagos/editar/(:num)'] = 'pagos/editar/$1';
+
+$route['reclamos'] = 'reclamos/index';
+$route['reclamos/crear'] = 'reclamos/crear';
+$route['reclamos/editar/(:num)'] = 'reclamos/editar/$1';
+$route['reclamos/eliminar/(:num)'] = 'reclamos/eliminar/$1';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
