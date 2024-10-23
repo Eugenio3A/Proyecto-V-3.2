@@ -29,7 +29,7 @@ class Reclamos extends CI_Controller {
             'estado' => 'pendiente' // Estado inicial
         );
 
-        $this->reclamo_model->agregarReclamo($data);
+        $this->reclamos_model->agregarReclamo($data); // Asegúrate de usar el nombre correcto del modelo
         redirect('reclamos/listarReclamos', 'refresh');
     }
 
@@ -44,7 +44,7 @@ class Reclamos extends CI_Controller {
 
     // Método para editar un reclamo
     public function editarReclamo($id) {
-        $data['reclamo'] = $this->reclamo_model->obtenerReclamoPorId($id); // Obtén el reclamo por ID
+        $data['reclamo'] = $this->reclamos_model->obtenerReclamoPorId($id); // Obtén el reclamo por ID
         $this->load->view('inc/head');
         $this->load->view('inc/menu');
         $this->load->view('form_editar_reclamo', $data); // Vista para editar reclamo
@@ -53,19 +53,19 @@ class Reclamos extends CI_Controller {
 
     // Método para actualizar el reclamo en la base de datos
     public function actualizarReclamo() {
-        $id = $this->input->post('id');
+        $id = $this->input->post('idReclamo'); // Asegúrate de que el campo se llama 'idReclamo'
         $data = array(
             'mensaje' => strtoupper($this->input->post('mensaje')),
             'estado' => strtoupper($this->input->post('estado')) // Si se necesita actualizar el estado
         );
 
-        $this->reclamo_model->actualizarReclamo($id, $data); // Actualiza el reclamo
+        $this->reclamos_model->actualizarReclamo($id, $data); // Actualiza el reclamo
         redirect('reclamos/listarReclamos', 'refresh');
     }
 
     // Método para eliminar un reclamo
     public function eliminarReclamo($id) {
-        $this->reclamo_model->eliminarReclamo($id); // Elimina el reclamo
+        $this->reclamos_model->eliminarReclamo($id); // Elimina el reclamo
         redirect('reclamos/listarReclamos', 'refresh');
     }
 }

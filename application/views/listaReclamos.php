@@ -6,9 +6,7 @@
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
-            <br>
-            <br>
-            <br>
+            <br><br><br>
 
             <!-- Page Heading -->
             <h1 class="h3 mb-2 text-gray-800">LISTA DE RECLAMOS</h1>
