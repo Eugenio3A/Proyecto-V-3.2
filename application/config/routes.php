@@ -61,6 +61,11 @@ $route['pagos/eliminar/(:num)'] = 'pagos/eliminar/$1';
 $route['reservas/eliminar/(:num)'] = 'reservas/eliminar/$1';
 $route['pagos/editar/(:num)'] = 'pagos/editar/$1';
 
+$route['seguimiento/registrarUbicacion'] = 'seguimiento/registrarUbicacion';
+$route['seguimiento/obtenerUbicaciones'] = 'seguimiento/obtenerUbicaciones';
+$route['seguimiento'] = 'seguimiento/index'; // Puedes crear un método index en el controlador para cargar la vista.
+
+
 $route['reclamos'] = 'reclamos/index';
 $route['reclamos/crear'] = 'reclamos/crear';
 $route['reclamos/editar/(:num)'] = 'reclamos/editar/$1';

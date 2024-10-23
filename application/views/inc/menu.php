@@ -96,7 +96,7 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="<?php echo base_url(); ?>aseetsHtml/typography.html">
+							<a href="<?php echo base_url(); ?>index.php/seguimiento/index">
 								<i class="la la-map"></i>
 								<p>Seguimiento</p>
 								<span class="badge badge-danger">25</span>
