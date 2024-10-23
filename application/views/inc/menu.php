@@ -82,7 +82,7 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="<?php echo base_url(); ?>index.php/reclamos/index">
+							<a href="<?php echo base_url(); ?>index.php/reclamos/listarReclamos">
 								<i class="la la-bell"></i>
 								<p> Reclamos</p>
 								<span class="badge badge-success">3</span>

@@ -5,15 +5,15 @@ class Reclamos extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->model('reclamos_model'); // Carga el modelo de reclamos
+        $this->load->model('reclamo_model'); // Carga el modelo de reclamos
     }
 
     // Método para mostrar el formulario de reclamos
     public function reclamo() {
-        $data['nombre_cliente'] = $this->session->userdata('nombre_cliente');
-        $data['telefono_cliente'] = $this->session->userdata('telefono_cliente');
-        $data['nombre_conductor'] = $this->session->userdata('nombre_conductor');
-        $data['placa_vehiculo'] = $this->session->userdata('placa_vehiculo');
+        $data['nombre'] = $this->session->userdata('nombre');
+        $data['telefono'] = $this->session->userdata('telefono');
+        $data['numConductor'] = $this->session->userdata('numConductor');
+        $data['placa'] = $this->session->userdata('placa');
 
         $this->load->view('inc/head');
         $this->load->view('inc/menu');
@@ -29,13 +29,13 @@ class Reclamos extends CI_Controller {
             'estado' => 'pendiente' // Estado inicial
         );
 
-        $this->reclamos_model->agregarReclamo($data); // Asegúrate de usar el nombre correcto del modelo
+        $this->reclamo_model->agregarReclamo($data); // Asegúrate de usar el nombre correcto del modelo
         redirect('reclamos/listarReclamos', 'refresh');
     }
 
     // Método para listar los reclamos
     public function listarReclamos() {
-        $data['reclamos'] = $this->reclamos_model->obtenerReclamos(); // Obtén la lista de reclamos
+        $data['reclamos'] = $this->reclamo_model->obtenerReclamos(); // Obtén la lista de reclamos
         $this->load->view('inc/head');
         $this->load->view('inc/menu');
         $this->load->view('listaReclamos', $data); // Vista para listar reclamos
@@ -44,7 +44,7 @@ class Reclamos extends CI_Controller {
 
     // Método para editar un reclamo
     public function editarReclamo($id) {
-        $data['reclamo'] = $this->reclamos_model->obtenerReclamoPorId($id); // Obtén el reclamo por ID
+        $data['reclamo'] = $this->reclamo_model->obtenerReclamoPorId($id); // Obtén el reclamo por ID
         $this->load->view('inc/head');
         $this->load->view('inc/menu');
         $this->load->view('form_editar_reclamo', $data); // Vista para editar reclamo
@@ -59,13 +59,13 @@ class Reclamos extends CI_Controller {
             'estado' => strtoupper($this->input->post('estado')) // Si se necesita actualizar el estado
         );
 
-        $this->reclamos_model->actualizarReclamo($id, $data); // Actualiza el reclamo
+        $this->reclamo_model->actualizarReclamo($id, $data); // Actualiza el reclamo
         redirect('reclamos/listarReclamos', 'refresh');
     }
 
     // Método para eliminar un reclamo
     public function eliminarReclamo($id) {
-        $this->reclamos_model->eliminarReclamo($id); // Elimina el reclamo
+        $this->reclamo_model->eliminarReclamo($id); // Elimina el reclamo
         redirect('reclamos/listarReclamos', 'refresh');
     }
 }

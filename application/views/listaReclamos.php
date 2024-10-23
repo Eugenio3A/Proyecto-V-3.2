@@ -45,8 +45,8 @@
                                 ?>
                                 <tr>
                                     <td><?php echo $contador; ?></td>
-                                    <td><?php echo $row->nombre_cliente; ?></td>
-                                    <td><?php echo $row->telefono_cliente; ?></td>
+                                    <td><?php echo $row->nombre; ?></td>
+                                    <td><?php echo $row->telefono; ?></td>
                                     <td><?php echo $row->mensaje; ?></td>
                                     <td><?php echo formatearFecha($row->fechaRegistro); ?></td>
                                     <td><?php echo $row->estado; ?></td>
