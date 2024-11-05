@@ -107,14 +107,28 @@ class Cliente extends CI_Controller {
 
 	public function agregarbd()
 	{
+		$idUsuario = $this->session->userdata('idUsuario'); 
+
 		$data['nombre']=strtoupper($_POST['nombre']);
 		$data['telefono']=$_POST['telefono'];
 		$data['direccion']=strtoupper($_POST['direccion']);
+		$data['idUsuario'] = $idUsuario; // Agregamos el ID del usuario logueado
 
 		$this->cliente_model->agregarcliente($data);
 		redirect('cliente/listaCliente','refresh');
 	}
 
+	public function modificarbd()
+	{
+		$idCliente=$_POST['idCliente'];
+		$data['nombre']=strtoupper($_POST['nombre']);
+		$data['telefono']=$_POST['telefono'];
+		$data['direccion']=strtoupper($_POST['direccion']);
+		$data['idUsuario'] = $idUsuario;
+		
+		$this->cliente_model->modificarcliente($idCliente,$data);
+		redirect('cliente/listaCliente','refresh');
+	}
 	public function eliminarbd()
 	{
 		$idCliente=$_POST['idCliente'];
@@ -125,22 +139,11 @@ class Cliente extends CI_Controller {
 	public function modificar()
 	{
 		$idCliente=$_POST['idCliente'];
-		$data['infoestudiante']=$this->cliente_model->recuperarcliente($idCliente);
+		$data['infocliente']=$this->cliente_model->recuperarcliente($idCliente);
 
 		$this->load->view('inc/head');
 		$this->load->view('formmodificar',$data);
 		$this->load->view('inc/pie');
-	}
-
-	public function modificarbd()
-	{
-		$idCliente=$_POST['idCliente'];
-		$data['nombre']=strtoupper($_POST['nombre']);
-		$data['telefono']=$_POST['telefono'];
-		$data['direccion']=strtoupper($_POST['direccion']);
-		
-		$this->cliente_model->modificarcliente($idCliente,$data);
-		redirect('cliente/listaCliente','refresh');
 	}
 
 	public function deshabilitarbd()

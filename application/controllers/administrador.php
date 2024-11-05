@@ -23,7 +23,7 @@ class Administrador extends CI_Controller {
 
 			$this->load->view('inc/head');
 			$this->load->view('inc/menu');
-			$this->load->view('inc/footer');
+			
 			$this->load->view('inc/pie');		
 		}
 		else

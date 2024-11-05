@@ -11,6 +11,52 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
 	<link rel="stylesheet" href="<?php echo base_url(); ?>aseetsHtml/assets/css/ready.css">
 	<link rel="stylesheet" href="<?php echo base_url(); ?>aseetsHtml/assets/css/demo.css">
+	<!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+<!-- Flatpickr JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+	<style>
+    /* Colores de estado */
+    .estado-asignado {
+        background-color: #32cd32; /* Verde para asignado */
+        color: #fff;
+    }
+    .estado-completado {
+        background-color: #3498db; /* Azul para completado */
+        color: #fff;
+    }
+    .estado-cancelado {
+        background-color: #e74c3c; /* Rojo para cancelado */
+        color: #fff;
+    }
+    .estado-pendiente {
+        background-color: #f1c40f; /* Amarillo para pendiente */
+        color: #000;
+    }
+
+    /* Estilos de tabla */
+    .table-hover tbody tr:hover {
+        background-color: #f4f6f9;
+    }
+    .btn-warning {
+        background-color: #f39c12;
+        border-color: #e67e22;
+    }
+    .btn-warning:hover {
+        background-color: #e67e22;
+    }
+    .btn-success {
+        background-color: #27ae60;
+        border-color: #27ae60;
+    }
+    .btn-success:hover {
+        background-color: #1c7a45;
+    }
+</style>
+
+
 </head>
 <body>
 	<div class="wrapper">
@@ -18,7 +64,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		    <div class="logo-header">
 		    
 				<a href="<?php echo base_url();?>index.php/administrador/usuario" class="logo">
-					Ready Dashboard
+					Panel Inicio
 				</a>
 				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
@@ -134,3 +180,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</div>
 				</nav>
         </div>
+
+		

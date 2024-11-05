@@ -1,162 +1,113 @@
+<!-- Content Wrapper -->
+<div id="content-wrapper" class="d-flex flex-column" style="background-color: #f4f6f9; min-height: 100vh;">
+    <!-- Main Content -->
+    <div id="content">
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+            <div class="header mt-4 mb-4 text-center">
+                <h1 style="color: #2c3e50;">Lista de Solicitudes</h1>
+            </div>
 
-    <div class="header">
-        <h1>LISTA DE SOLICITUDES</h1>
-    </div>
+            <h2 style="color: #2c3e50;">Bienvenido <?php echo $this->session->userdata('cuenta'); ?></h2>
+            <p style="color: #7f8c8d;"><?php echo date('Y/m/d H:i:s'); ?></p>
 
-    <div class="container">
-        <!-- Cerrar sesión -->
-        <a href="<?php echo base_url(); ?>index.php/usuarios/logout">
-            <button type="button" class="btn btn-primary">Cerrar sesión</button>
-        </a>
+            <div class="card-header py-3 d-flex justify-content-between align-items-center">
+        
+                <a href="<?php echo base_url('index.php/solicitudes/listaAcignados'); ?>">
+                    <button type="button" class="btn btn-danger">Ver Asignados</button>
+                </a>
+              
+                
+               
+                <a href="<?php echo base_url(); ?>index.php/solicitudes/agregar" class="btn btn-primary">Agregar Reserva</a>
+            </div>
 
-        <!-- Botones adicionales si los necesitas -->
-        <a href="<?php echo base_url(); ?>index.php/reservas/agregar">
-            <button type="button" class="btn btn-primary">AGREGAR RESERVA</button>
-        </a>
+            <?php if ($this->session->flashdata('mensaje')): ?>
+                <div class="alert alert-success mt-4">
+                    <?= $this->session->flashdata('mensaje'); ?>
+                </div>
+            <?php endif; ?>
 
-        <!-- Bienvenida y fecha actual -->
-        <h2>Bienvenido <?php echo $this->session->userdata('login'); ?></h2>
-        <p><?php echo date('Y/m/d H:i:s'); ?></p>
+            <?php if ($this->session->flashdata('error')): ?>
+                <div class="alert alert-danger mt-4">
+                    <?= $this->session->flashdata('error'); ?>
+                </div>
+            <?php endif; ?>
 
-        <!-- Botón para ver reservas deshabilitadas -->
-        <a href="<?php echo base_url(); ?>index.php/reservas/deshabilitados">
-            <button type="button" class="btn btn-warning">RESERVAS NO FUNCIONALES</button>
-        </a>
+            <div class="card-body mt-4">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="background-color: #ffffff; border-radius: 8px;">
+                        <thead style="background-color: #34495e; color: #ecf0f1;">
+                            <tr>
+                                <th>No.</th>
+                                <th>Teléfono</th>
+                                <th>Nombre Cliente</th>
+                                <th>Dirección</th>
+                                <th>Tipo Servicio</th>
+                                <th>No. de Vehículo</th>
+                                <th>No. de Parqueo</th>
+                                <th>Fecha de Solicitud</th>
+                                <th>Estado</th>
+                                <th>Modificar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $contador = 1;
+                            foreach ($solicitudes as $row) {
+                            ?>
+                            <tr id="fila_<?php echo $row['idSolicitud']; ?>" class="estado-<?php echo $row['estado']; ?>">
+                                <td><?php echo $contador; ?></td>
+                                <td><?php echo $row['telefonoCliente']; ?></td>
+                                <td><?php echo $row['nombreCliente']; ?></td>
+                                <td><?php echo $row['direccionCiente']; ?></td>
+                                <td><?php echo $row['tipoServicio']; ?></td>
+                                <td><?php echo $row['numConductor']; ?></td>
+                                <td><?php echo $row['nombreParqueo']; ?></td>
+                                <td><?php echo formatearFecha($row['fechaSolicitud']); ?></td>
+                                <td>
+                                    <form action="<?php echo base_url('solicitudes/modificarEstado'); ?>" method="post" style="display: inline;" id="estadoForm_<?php echo $row['idSolicitud']; ?>">
+                                        <input type="hidden" name="idSolicitud" value="<?php echo $row['idSolicitud']; ?>">
+                                        <select name="nuevo_estado" class="form-select" aria-label="Estado de las solicitudes" onchange="cambiarEstado(this, '<?php echo $row['idSolicitud']; ?>')">
+                                            <option value="pendiente" <?php echo ($row['estado'] == 'pendiente') ? 'selected' : ''; ?>>Pendiente</option>
+                                            <option value="asignado" <?php echo ($row['estado'] == 'asignado') ? 'selected' : ''; ?>>Asignado</option>
+                                            <option value="completado" <?php echo ($row['estado'] == 'completado') ? 'selected' : ''; ?>>Completado</option>
+                                            <option value="cancelado" <?php echo ($row['estado'] == 'cancelado') ? 'selected' : ''; ?>>Cancelado</option>
+                                        </select>
+                                    </form>
+                                </td>
+                                <td>
+                                    <?php echo form_open("solicitudes/modificar"); ?>
+                                    <input type="hidden" name="idSolicitud" value="<?php echo $row['idSolicitud']; ?>">
+                                    <button type="submit" class="btn btn-success">Modificar</button>
+                                    <?php echo form_close(); ?>
+                                </td>
+                            </tr>
+                            <?php
+                            $contador++;
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-        <!-- Tabla de reservas -->
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>No.</th>
-                    <th>Familia</th>
-                    <th>Teléfono</th>
-                    <th>Dirección</th>
-                    <th>No. Móvil</th>
-                    <th>Tipo Móvil</th>
-                    <th>Placa</th>
-                    <th>Conductor</th>
-                    <th>Teléfono</th>
-                    <th>Modificar</th>
-                    <th>Eliminar</th>
-                    <th>Deshabilitar</th>
-                </tr>
-            </thead>
-            <tbody>
 
-            <tbody>
-    <?php
-     $contador = 1;
-    if (isset($usuarios) && $usuarios->num_rows() > 0) {
-        foreach ($usuarios->result() as $row) {
-    ?>
-    <tr>
-        <td><?php echo $contador; ?></td>
-        <td><?php echo $row->familia; ?></td>
-        <td><?php echo $row->telefono; ?></td>
-        <td><?php echo $row->direccion; ?></td>
-        <td><?php echo $row->numero_movil; ?></td>
-        <td><?php echo $row->tipo; ?></td>
-        <td><?php echo $row->placa; ?></td>
-        <td><?php echo $row->nombre_conductor; ?></td>
-        <td><?php echo $row->telefono_conductor; ?></td>
-        <td>
-            <!-- Modificar reserva -->
-            <?php echo form_open_multipart("reservas/modificar"); ?>
-            <input type="hidden" name="id_reserva" value="<?php echo $row->id_reserva; ?>">
-            <button type="submit" class="btn btn-success">Modificar</button>
-            <?php echo form_close(); ?>
-        </td>
-        <td>
-            <!-- Eliminar reserva -->
-            <?php echo form_open_multipart("reservas/eliminarbd"); ?>
-            <input type="hidden" name="id_reserva" value="<?php echo $row->id_reserva; ?>">
-            <button type="submit" class="btn btn-danger">Eliminar</button>
-            <?php echo form_close(); ?>
-        </td>
-        <td>
-            <!-- Deshabilitar reserva -->
-            <?php echo form_open_multipart("reservas/deshabilitarbd"); ?>
-            <input type="hidden" name="id_reserva" value="<?php echo $row->id_reserva; ?>">
-            <button type="submit" class="btn btn-warning">Deshabilitar</button>
-            <?php echo form_close(); ?>
-        </td>
-    </tr>
-    <?php
+<script>
+    function cambiarEstado(selectElement, idSolicitud) {
+        var fila = document.getElementById('fila_' + idSolicitud);
+        fila.classList.remove('estado-pendiente', 'estado-asignado', 'estado-completado', 'estado-cancelado');
+
+        var nuevoEstado = selectElement.value;
+        fila.classList.add('estado-' + nuevoEstado);
+
+        if (nuevoEstado === 'cancelado') {
+            var url = "<?php echo base_url('index.php/solicitudes/listaCancelados'); ?>";
+            document.getElementById('estadoForm_' + idSolicitud).action = url;
+            document.getElementById('estadoForm_' + idSolicitud).submit();
+        } else {
+            document.getElementById('estadoForm_' + idSolicitud).action = "<?php echo base_url('index.php/solicitudes/modificarEstado'); ?>";
+            document.getElementById('estadoForm_' + idSolicitud).submit();
         }
-    } else {
-    ?>
-    <tr>
-        <td colspan="12" class="text-center">No hay registros disponibles</td>
-    </tr>
-    <?php
     }
-    ?>
-</tbody>
-</table>
-</div>
-
-
-
-
-Para integrar la funcionalidad de WhatsApp y gestionar los usuarios en tu aplicación, puedes utilizar la API de WhatsApp junto con tus scripts en PHP. La idea es que cuando se recibe una llamada, se verifique si el usuario ya existe en la base de datos, y si no existe, se redirija a un formulario para agregarlo.
-
-Pasos a seguir:
-Implementar un webhook para recibir llamadas de WhatsApp.
-Verificar si el usuario ya existe en la base de datos.
-Agregar un botón o enlace para redirigir a la página de agregar usuario si no existe.
-Mostrar los datos del usuario si ya existe.
-Paso 1: Implementar un webhook para recibir llamadas de WhatsApp
-Para recibir notificaciones de WhatsApp sobre las llamadas, necesitas configurar un webhook. Este es un URL donde WhatsApp enviará información sobre las llamadas. Puedes usar servicios como ngrok para hacer pruebas locales.
-
-Configura un webhook en tu controlador:
-php
-Copiar código
-public function webhookWhatsApp() {
-    // Obtener datos de la llamada desde la solicitud
-    $data = json_decode(file_get_contents('php://input'), true);
-
-    // Procesar el número de móvil de la llamada
-    $numeroMovil = $data['from']; // Asegúrate de que el índice sea correcto según la estructura de tu JSON
-
-    // Verificar si el usuario ya existe
-    $usuario = $this->solicitudes_model->obtenerPorMovil($numeroMovil);
-
-    if ($usuario->num_rows() > 0) {
-        // El usuario existe, enviar respuesta o marcar en la tabla
-        $this->marcarSolicitud($usuario->row()->id_reserva);
-    } else {
-        // Redirigir a agregar usuario
-        redirect('reservas/agregar?movil=' . $numeroMovil);
-    }
-}
-Paso 2: Verificar si el usuario ya existe
-En el modelo Solicitudes_model, ya tienes el método obtenerPorMovil que puedes usar para verificar la existencia del usuario. Si el usuario ya existe, puedes marcar la solicitud como atendida o similar.
-
-Paso 3: Redirigir a la página de agregar usuario
-Si el usuario no existe, redirige a una página donde puedas agregar el usuario. En tu controlador, el método webhookWhatsApp envía a reservas/agregar, pasando el número de móvil como un parámetro para que se complete automáticamente.
-
-Paso 4: Mostrar datos del usuario si ya existe
-Cuando recibes la información del usuario, puedes mostrarla en tu vista. Aquí hay un ejemplo de cómo podrías estructurarlo en listaSolicitudes.php:
-
-php
-Copiar código
-// Verificar si existe el usuario y mostrar datos
-if (isset($usuario)) {
-    echo '<h2>Datos del Usuario:</h2>';
-    echo '<p>Nombre: ' . $usuario->nombre_usuario . '</p>';
-    echo '<p>Familia: ' . $usuario->familia . '</p>';
-    echo '<p>Teléfono: ' . $usuario->telefono . '</p>';
-    // Añadir más datos según sea necesario
-}
-Resumen
-Con estos pasos, puedes gestionar la interacción con WhatsApp, verificando si el usuario ya existe y actuando en consecuencia. Recuerda que para utilizar la API de WhatsApp, necesitas seguir sus políticas y posiblemente utilizar una cuenta de WhatsApp Business y un proveedor de API que ofrezca esta funcionalidad.
-
-Notas Adicionales
-API de WhatsApp: Asegúrate de que tienes acceso a la API de WhatsApp Business para poder recibir y enviar mensajes. Necesitarás autenticarte y configurar adecuadamente la API para manejar webhooks.
-
-Seguridad: Ten en cuenta la seguridad de tu webhook. Es recomendable validar las solicitudes que recibes para asegurarte de que provienen de WhatsApp.
-
-Testing: Realiza pruebas exhaustivas para verificar que la integración funciona correctamente en todos los escenarios (usuario existe, usuario no existe, errores en la API, etc.).
-
-Con estas configuraciones, tu aplicación debería ser capaz de interactuar con WhatsApp y gestionar usuarios de manera eficiente.
-
+</script>

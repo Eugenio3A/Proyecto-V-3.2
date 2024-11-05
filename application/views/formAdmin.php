@@ -126,7 +126,7 @@
         <button type="submit" class=" btn btn-success btn-user btn-block">Registrar Cuenta Usuario</button>
     </div>
     <div class="col-sm-4">
-        <a href="<?php echo base_url(); ?>index.php/usuarios/logoutAdmin">
+        <a href="<?php echo base_url(); ?>index.php/usuarios/logout">
             <button type="button" class="btn btn-warning btn-user btn-block">Cancelar</button>
         </a>
     </div>

@@ -6,31 +6,24 @@
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
-            <br>
-            <br>
-            <br>
-            <br>
-            <div class="header">
-                <h1>LISTA DE CONDUCTORES</h1>
-            </div>
-
-            <h2>Bienvenido <?php echo $this->session->userdata('login'); ?></h2>
-
-            <p><?php echo date('Y/m/d H:i:s'); ?></p>
+            <br><br><br>
+            <div class="header text-center mb-4">
+                <h1 class="h3 mb-0 text-gray-800">Lista de Conductores</h1>
+                </div>
+                <h2 class="h5">Bienvenido <?php echo $this->session->userdata('cuenta'); ?></h2>
+                <p class="text-muted"><?php echo date('Y/m/d H:i:s'); ?></p>
+            
 
             <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                    <a href="<?php echo base_url(); ?>index.php/conductor/deshabilitados">
-                        <button type="button" class="btn btn-warning">CONDUCTORES NO FUNCIONALES</button>
-                    </a>
-
-                    <a href="<?php echo base_url(); ?>index.php/conductor/agregar">
-                        <button type="button" class="btn btn-primary">AGREGAR USUARIO</button>
-                    </a>
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                    <div>
+                        <a href="<?php echo base_url(); ?>index.php/conductor/deshabilitados" class="btn btn-warning btn-sm">Conductores No Funcionales</a>
+                        <a href="<?php echo base_url(); ?>index.php/conductor/agregar" class="btn btn-primary btn-sm">Agregar Usuario</a>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>No.</th>
@@ -39,78 +32,51 @@
                                     <th>Primer Apellido</th>
                                     <th>Segundo Apellido</th>
                                     <th>Licencia</th>
-                                    <th>Vehículo</th>
-                                    <th>Marca</th>
-                                    <th>Modelo</th>
-                                    <th>Año</th>
-                                    <th>Color</th>
-                                    <th>Placa</th>
-                                    <th>Propietario</th>
+                                    <th>Teléfono</th>
+                                    <th>Cuenta Email</th>
+                                    <th>Domicilio</th>
+                                    <th>Detalle</th>
+                                    <th>Creado</th>
                                     <th>Modificar</th>
                                     <th>Eliminar</th>
-                                    <th>Deshabilitar</th>
+                                   
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
                                 $contador = 1;
-                                foreach ($conductores as $row) { // Cambié a foreach directamente
+                                foreach ($conductor->result() as $row) {
                                 ?>
                                 <tr>
                                     <td><?php echo $contador; ?></td>
                                     <td>
-                                        <?php 
-                                        $foto = $row->foto;
-                                        if ($foto == "") {
-                                        ?>
-                                        <img src="<?php echo base_url(); ?>/uploads/conductor/perfil.jpg" width="50">  
-                                        <?php
-                                        } else {
-                                        ?>
-                                        <img src="<?php echo base_url(); ?>/uploads/conductor/<?php echo $foto; ?>" width="50">  
-                                        <?php
-                                        }
-                                        ?>
+                                        <img src="<?php echo base_url(); ?>/uploads/conductor/<?php echo $row->foto ? $row->foto : 'perfil.jpg'; ?>" width="50" class="img-fluid rounded-circle" alt="Foto de Conductor">
                                     </td>
                                     <td><?php echo $row->nombre; ?></td>
                                     <td><?php echo $row->primerApellido; ?></td>
                                     <td><?php echo $row->segundoApellido; ?></td>
-                                    <td><?php echo $row->numConductor; ?></td> <!-- Cambié a numConductor según tu base de datos -->
-
-                                    <!-- Mostrar detalles del vehículo -->
-                                    <td><?php echo $row->identificador; ?></td>
-                                    <td><?php echo $row->marca; ?></td>
-                                    <td><?php echo $row->modelo; ?></td>
-                                    <td><?php echo $row->anio; ?></td>
-                                    <td><?php echo $row->color; ?></td>
-                                    <td><?php echo $row->placa; ?></td>
-                                    
-                                    <!-- Mostrar propietario solo si no es dueño -->
+                                    <td><?php echo $row->licencia; ?></td>
+                                    <td><?php echo $row->telefono; ?></td>
+                                    <td><?php echo $row->cuenta; ?></td>
+                                    <td><?php echo $row->domicilio; ?></td>
+                                    <td><?php echo $row->detalleChofProp; ?></td>
+                                    <td><?php echo formatearFecha($row->fechaCreacion); ?></td>
                                     <td>
-                                        <?php if (isset($row->propietarioNombre)) { // Verificar si el propietario existe
-                                            echo $row->propietarioNombre . ' ' . $row->propietarioPrimerApellido . ' ' . $row->propietarioSegundoApellido;
-                                            echo '<br>Teléfono: ' . $row->propietarioTelefono . '<br>Dirección: ' . $row->propietarioDireccion;
-                                        } else {
-                                            echo 'Es propietario';
-                                        } ?>
-                                    </td>
-
-                                    <td>
-                                        <?php echo form_open("conductor/modificar"); ?>
+                                        <?php echo form_open_multipart("conductor/modificar"); ?>
                                         <input type="hidden" name="idConductor" value="<?php echo $row->idConductor; ?>">
-                                        <button type="submit" class="btn btn-success">Modificar</button>
+                                        <button type="submit" class="btn btn-warning btn-sm">Modificar</button>
                                         <?php echo form_close(); ?>
                                     </td>
-                                    <td>
-                                        <?php echo form_open("conductor/eliminarbd"); ?>
+                                    <!-- <td>
+                                        <?php echo form_open_multipart("conductor/eliminarbd"); ?>
                                         <input type="hidden" name="idConductor" value="<?php echo $row->idConductor; ?>">
-                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                        <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
                                         <?php echo form_close(); ?>
-                                    </td>
+                                    </td>-->
                                     <td>
-                                        <?php echo form_open("conductor/deshabilitarbd"); ?>
+                                        <?php echo form_open_multipart("conductor/deshabilitarbd"); ?>
                                         <input type="hidden" name="idConductor" value="<?php echo $row->idConductor; ?>">
-                                        <button type="submit" class="btn btn-warning">Deshabilitar</button>
+                                        <button type="submit" class="btn  btn-danger btn-sm">Eliminar</button>
                                         <?php echo form_close(); ?>
                                     </td>
                                 </tr>
@@ -123,3 +89,31 @@
                     </div>
                 </div>
             </div>
+        
+
+<!-- CSS Styling -->
+<style>
+    .header {
+        margin-bottom: 30px;
+    }
+
+    .card-header {
+        background-color: #f8f9fa;
+        border-bottom: 2px solid #007bff;
+    }
+
+    .table th {
+        background-color: #007bff;
+        color: white;
+        text-align: center;
+    }
+
+    .table td {
+        vertical-align: middle;
+    }
+
+    .img-fluid {
+        max-width: 50px;
+        height: auto;
+    }
+</style>

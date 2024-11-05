@@ -46,12 +46,42 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="<?php echo base_url();?>index.php/solicitudController/registrar_solicitud">
-								<i class="la la-weixin"></i>
-								<p> Solicitudes</p>
-								<span class="badge badge-count">14</span>
-							</a>
-						</li>
+    <a href="#" data-toggle="collapse" data-target="#submenuSolicitudes" aria-expanded="false" aria-controls="submenuSolicitudes">
+        <i class="la la-weixin"></i>
+        <p>Solicitudes</p>
+        <span class="badge badge-count">14</span>
+    </a>
+    <!-- Submenú de Solicitudes -->
+    <ul class="collapse list-unstyled" id="submenuSolicitudes">
+        <li class="nav-sub-item">
+            <a href="<?php echo base_url(); ?>index.php/solicitudes/agregar">
+                <p>Agregar Solicitud</p>
+            </a>
+        </li>
+       
+        <li class="nav-sub-item">
+            <a href="<?php echo base_url(); ?>index.php/solicitudes/lista">
+                <p>Solicitudes Pendientes</p>
+            </a>
+        </li>
+        <li class="nav-sub-item">
+            <a href="<?php echo base_url(); ?>index.php/solicitudes/listaCompletado">
+                <p>Solicitudes Completadas</p>
+            </a>
+        </li>
+        <li class="nav-sub-item">
+            <a href="<?php echo base_url(); ?>index.php/solicitudes/listaCancelados">
+                <p>Solicitudes Canceladas</p>
+            </a>
+        </li>
+		<li class="nav-sub-item">
+            <a href="<?php echo base_url(); ?>index.php/solicitudes/listaTotal">
+                <p>Ver Todas las Solicitudes</p>
+            </a>
+        </li>
+    </ul>
+</li>
+
 						<li class="nav-item">
 							<a href="<?php echo base_url();?>index.php/cliente/listaCliente">
 								<i class="la la-user"></i>
@@ -67,7 +97,14 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="<?php echo base_url();?>index.php/reservas/movil">
+							<a href="<?php echo base_url();?>index.php/puestos/listaParqueo">
+								<i class="la la-taxi"></i>
+								<p> Lista Puestos</p>
+								<span class="badge badge-count">14</span>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="<?php echo base_url();?>index.php/reservas/lista">
 								<i class="la la-calendar"></i>
 								<p> Reservas</p>
 								<span class="badge badge-count">50</span>
@@ -123,3 +160,6 @@
 			</div>
 			<div class="main-panel">
 				
+
+
+			

@@ -43,4 +43,16 @@ class Cliente_model extends CI_Model {
 		$this->db->where('idCliente',$idCliente);
 		$this->db->update('clientes',$data);
 	}
+
+
+	public function get_cliente() {
+        $query = $this->db->get('clientes'); // Asegúrate de que la tabla sea correcta
+        return $query->result();
+    }
+
+	public function obtener_por_telefono($telefono) {
+        return $this->db->get_where('clientes', ['telefono' => $telefono])->row();
+    }
+
+
 }

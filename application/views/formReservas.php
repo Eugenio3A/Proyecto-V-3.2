@@ -1,23 +1,7 @@
-<!DOCTYPE html>
-<html lang="es">
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Registrar Reserva</title>
-
-    <!-- Custom fonts for this template-->
-    <link href="<?php echo base_url(); ?>modeloLogin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
-    <!-- Custom styles for this template-->
-    <link href="<?php echo base_url(); ?>modeloLogin/css/sb-admin-2.min.css" rel="stylesheet">
 
     <style>
+        /* Estilos personalizados para llenar la pantalla y centrar el formulario */
         .full-height {
             height: 100vh;
             display: flex;
@@ -30,84 +14,125 @@
         }
 
         .card {
-            width: 100%;
-            max-width: 700px;
+            width: 100%; /* Asegura que la tarjeta ocupe todo el ancho posible */
+            max-width: 700px; /* Limita el ancho máximo */
             margin: 0 auto;
         }
     </style>
-</head>
 
-<body class="bg-gradient-primary">
-    <div class="container full-height">
         <div class="card o-hidden border-0 shadow-lg">
             <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
                 <div class="row">
+                    <!-- Se elimina la clase que oculta la imagen en pantallas pequeñas -->
                     <div class="col-lg-12">
                         <div class="p-5">
+                            <br>
+                            <br>
+
                             <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">CREAR UNA RESERVA</h1>
+                                <h1 class="h4 text-gray-900 mb-4">AGREGAR NUEVA RESERVA</h1>
                             </div>
 
-                            <!-- Abrir el formulario -->
-                            <?php echo form_open_multipart("reservas/agregarbd"); ?>
+                            <?php echo form_open("reservas/agregarbd", ['class' => 'user']); ?>
 
-                            <!-- Campo para fecha de reserva -->
-                            <div class="form-group">
-                                <input type="datetime-local" class="form-control" name="fechaReserva" placeholder="Fecha del servicio" required>
-                            </div>
+<!-- Selección de Cliente -->
+<div class="form-group">
+    <label for="idCliente">Seleccionar Cliente</label>
+    <select class="form-control" name="idCliente" id="idCliente" required onchange="rellenarDatosCliente()">
+        <option value="">Seleccione un Cliente</option>
+        <?php if(!empty($clientes)): ?>
+            <?php foreach ($clientes as $cliente): ?>
+                <option value="<?= $cliente->idCliente ?>" data-nombre="<?= $cliente->nombre ?>" data-telefono="<?= $cliente->telefono ?>">
+                    <?= $cliente->nombre ?>
+                </option>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <option value="">No hay clientes disponibles</option>
+        <?php endif; ?>
+    </select>
+</div>
+
+<!-- Resto del formulario -->
+
+
+<!-- Campo Nombre del Cliente (auto-completado) -->
+<div class="form-group">
+    <label for="nombre">Nombre del Cliente</label>
+    <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Nombre del Cliente" required readonly>
+</div>
+
+<!-- Campo Teléfono del Cliente (auto-completado) -->
+<div class="form-group">
+    <label for="telefono">Teléfono del Cliente</label>
+    <input type="text" class="form-control" name="telefono" id="telefono" placeholder="Teléfono del Cliente" required readonly>
+</div>
+
+<!-- Fecha de Reserva -->
+<div class="form-group">
+    <label for="fechaReserva">Fecha de Reserva</label>
+    <input type="datetime-local" class="form-control" name="fechaReserva" id="fechaReserva" required>
+</div>
+
+<!-- Tipo de Servicio -->
+<div class="form-group">
+    <label for="tipoServicio">Tipo de Servicio</label>
+    <select class="form-control" name="tipoServicio" id="tipoServicio" required>
+        <option value="">Seleccione un Servicio</option>
+        <option value="taxi">Taxi</option>
+        <option value="vagoneta">Vagoneta</option>
+        <option value="taxi_familiar">Taxi Familiar</option>
+        <option value="mudanza">Mudanza</option>
+    </select>
+</div>
+
+<!-- Campo Oculto para el ID del Usuario -->
+<input type="hidden" name="idUsuario" value="<?= $this->session->userdata('idUsuario'); ?>"> <!-- Ajusta esto según tu sistema de autenticación -->
+
+<!-- Botón de Agregar Reserva -->
+<div class="form-group row">
+    <div class="col-sm-6 mb-3 mb-sm-0">
+        <button type="submit" class="btn btn-success btn-block">Agregar Reserva</button>
+    </div>
+    <div class="col-sm-6">
+        <a href="<?php echo base_url(); ?>index.php/reservas/lista" class="btn btn-warning btn-block">Cancelar</a>
+    </div>
+</div>
+
+<?php echo form_close(); ?>
 
                             
-
-                            <!-- Campo para seleccionar tipo de servicio -->
-                            <div class="form-group">
-                                <select class="form-control" name="tipoServicio" required>
-                                    <option value="">Seleccionar Tipo de Servicio</option>
-                                    <option value="taxi">Taxi</option>
-                                    <option value="vagoneta">Vagoneta</option>
-                                    <option value="taxi_familiar">Taxi Familiar</option>
-                                    <option value="mudanza">Mudanza</option>
-                                </select>
-                            </div>
-
-                            <!-- Campo para seleccionar cliente -->
-                            <div class="form-group">
-                                <select class="form-control" name="cliente_id" required>
-                                    <option value="">Seleccionar Cliente</option>
-                                    <?php foreach ($clientes as $cliente): ?>
-                                        <option value="<?= $cliente->idCliente ?>"><?= $cliente->nombre ?> - <?= $cliente->telefono ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-
-                            <!-- Botones para agregar y cancelar -->
-                            <div class="form-group row">
-                                <div class="col-sm-8 mb-3 mb-sm-0">
-                                    <button type="submit" class="btn btn-success btn-user btn-block">Agregar Reserva</button>
-                                </div>
-                                <div class="col-sm-4">
-                                    <a href="<?php echo base_url(); ?>index.php/reservas/lista">
-                                        <button type="button" class="btn btn-warning btn-user btn-block">Cancelar</button>
-                                    </a>
-                                </div>
-                            </div>
-
-                            <?php echo form_close(); ?>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="<?php echo base_url(); ?>modeloLogin/vendor/jquery/jquery.min.js"></script>
-    <script src="<?php echo base_url(); ?>modeloLogin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src=" <?php echo base_url(); ?>modeloLogin/vendor/jquery/jquery.min.js"></script>
+    <script src=" <?php echo base_url(); ?>modeloLogin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="<?php echo base_url(); ?>modeloLogin/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src=" <?php echo base_url(); ?>modeloLogin/vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="<?php echo base_url(); ?>modeloLogin/js/sb-admin-2.min.js"></script>
+    <script src=" <?php echo base_url(); ?>modeloLogin/js/sb-admin-2.min.js"></script>
+
+    <!-- Script para auto-completar datos del cliente -->
+<script>
+    function rellenarDatosCliente() {
+        var clienteSelect = document.getElementById("idCliente");
+        var selectedOption = clienteSelect.options[clienteSelect.selectedIndex];
+        document.getElementById("nombre").value = selectedOption.getAttribute("data-nombre");
+        document.getElementById("telefono").value = selectedOption.getAttribute("data-telefono");
+    }
+</script>
+
 
 </body>
+
 </html>
+
+

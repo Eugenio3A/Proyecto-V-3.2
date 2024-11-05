@@ -28,23 +28,23 @@ class Veiculo_model extends CI_Model {
 		$this->db->insert('Vehiculos',$data);
 	}
 
-	public function eliminarveiculo($id_vehiculo)
+	public function eliminarveiculo($idVehiculo)
 	{
-		$this->db->where('id_vehiculo',$id_vehiculo);
+		$this->db->where('idVehiculo',$idVehiculo);
 		$this->db->delete('Vehiculos');
 	}
 
-	public function recuperarveiculo($id_vehiculo)
+	public function recuperarveiculo($idVehiculo)
 	{
 		$this->db->select('*');
 		$this->db->from('Vehiculos');
-		$this->db->where('id_vehiculo',$id_vehiculo);
+		$this->db->where('idVehiculo',$idVehiculo);
 		return $this->db->get(); //devuelve el resultado
 	}
 
-	public function modificarveiculo($id_vehiculo,$data)
+	public function modificarveiculo($idVehiculo,$data)
 	{
-		$this->db->where('id_vehiculo',$id_vehiculo);
+		$this->db->where('idVehiculo',$idVehiculo);
 		$this->db->update('Vehiculos',$data);
 	}
 }

@@ -5,16 +5,22 @@ class Reservas extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->model('Reservas_model');  
-        $this->load->library('form_validation');
+        // Cargar el modelo correctamente
+        $this->load->model('Reservas_model');  // Asegúrate de que el nombre del modelo esté correctamente capitalizado
     }
 
-    // Función para mostrar la lista de reservas
-    public function movil() {
-        if ($this->session->userdata('cuenta')) {
-            $listaRes = $this->Reservas_model->listarReservasConDetalles(); 
-            $data['reservas'] = $listaRes;
+    public function demo() {
+        $this->load->view('inc/vistaslte/head');
+        $this->load->view('inc/vistaslte/menu');
+        $this->load->view('inc/vistaslte/test');
+        $this->load->view('inc/vistaslte/footer');
+    }
 
+    public function movil() {
+        if ($this->session->userdata('codigo')) {
+            $listaRes = $this->Reservas_model->listaReservasPendientes(); // Cambiado a listaReservasPendientes
+            $data['reservas'] = $listaRes->result(); // Cambiado a 'reservas'
+            
             $this->load->view('inc/head');
             $this->load->view('inc/cabeza');
             $this->load->view('listaRes', $data);
@@ -24,126 +30,144 @@ class Reservas extends CI_Controller {
         }
     }
 
-    // Función para mostrar el formulario de agregar reserva
-    public function agregar() {
-        $data['clientes'] = $this->Reservas_model->listarClientes();
-        $data['vehiculos'] = $this->Reservas_model->listarVehiculos();
+    public function lista() {
+        $data['reservas'] = $this->Reservas_model->listaReservasPendientes(); // Devuelve un array
 
+        $this->load->view('inc/head');
+        $this->load->view('inc/cabeza');
+        $this->load->view('listaRes', $data);
+        $this->load->view('inc/pieLis');
+    }
+
+    public function agregar() {
+        // Cargar el modelo de clientes y vehículos
+        $this->load->model('cliente_model');
+        $this->load->model('Veiculo_model');
+
+        // Cargar clientes y vehículos desde la base de datos
+        $data['clientes'] = $this->cliente_model->get_cliente(); // Cambiado a 'clientes'
+        $data['vehiculos'] = $this->Veiculo_model->get_vehiculos();
+
+        // Cargar la vista con los datos
         $this->load->view('inc/head');
         $this->load->view('inc/cabeza');
         $this->load->view('formReservas', $data);
         $this->load->view('inc/pieLis');
     }
 
-    // Función para procesar el formulario de agregar reserva
-    public function agregarbd() {
-        $this->form_validation->set_rules('cliente_id', 'Cliente', 'required');
-        $this->form_validation->set_rules('tipoServicio', 'Tipo de Servicio', 'required');
-        $this->form_validation->set_rules('fechaReserva', 'Fecha Reserva', 'required');
+    public function agregarbd()
+{
+    $this->load->model('reservas_model'); // Asegúrate de que el modelo de reservas está cargado.
 
-        if ($this->form_validation->run() == FALSE) {
-            $this->agregar(); // Si la validación falla, mostrar el formulario nuevamente
-        } else {
-            $data = array(
-                'cliente_id' => $this->input->post('cliente_id'),
-                'tipoServicio' => $this->input->post('tipoServicio'),
-                'fechaReserva' => $this->input->post('fechaReserva'),
-                'activo' => 1,
-                'estado' => 'pendiente'
-            );
+    $data = array(
+        'cliente_id' => $this->input->post('idCliente'),
+        'nombreCliente' => $this->input->post('nombre'),
+        'telefono' => $this->input->post('telefono'),
+        'tipoServicio' => $this->input->post('tipoServicio'),
+        'fechaReserva' => $this->input->post('fechaReserva'),
+        'idUsuario' => $this->input->post('idUsuario'), // Capturamos el ID del usuario
+    );
 
-            $this->Reservas_model->agregarReserva($data);
-            $this->session->set_flashdata('mensaje', 'Reserva agregada correctamente.'); 
-            redirect('Reservas/movil', 'refresh');
-        }
+    // Llama al modelo para insertar la reserva
+    if ($this->reservas_model->insertarReserva($data)) {
+        // Puedes redirigir a una página de éxito o mostrar un mensaje
+        $this->session->set_flashdata('success', 'Reserva creada con éxito.');
+        redirect('reservas/lista'); // Cambia a la ruta correcta
+    } else {
+        // Manejar el error
+        $this->session->set_flashdata('error', 'Error al crear la reserva. Intenta nuevamente.');
+        redirect('reservas/formReservas'); // Regresar al formulario
     }
+}
 
-    // Función para mostrar el formulario de modificar reserva
-    public function modificar() {
-        $idReserva = $this->input->post('idReserva');
-        $data['reserva'] = $this->Reservas_model->recuperarReserva($idReserva)->row(); 
 
-        // Cargar datos adicionales
-        $data['clientes'] = $this->Reservas_model->listarClientes();
-        $data['vehiculos'] = $this->Reservas_model->listarVehiculos(); 
-
-        $this->load->view('inc/head');
-        $this->load->view('inc/cabeza');
-        $this->load->view('formmodificar', $data);
-        $this->load->view('inc/pieLis');
-    }
-
-    // Función para procesar el formulario de modificar reserva
-    public function modificarbd() {
-        $idReserva = $this->input->post('idReserva');
-
-        // Validación de datos
-        $this->form_validation->set_rules('tipoServicio', 'Tipo de Servicio', 'required');
-        $this->form_validation->set_rules('fechaReserva', 'Fecha Reserva', 'required');
-
-        if ($this->form_validation->run() == FALSE) {
-            // Si la validación falla, volver al formulario de modificación
-            $this->modificar();
-        } else {
-            $data = array(
-                'tipoServicio' => $this->input->post('tipoServicio'),
-                'fechaReserva' => $this->input->post('fechaReserva'),
-                'estado' => $this->input->post('estado') // Asegúrate de que el formulario tenga este campo
-            );
-
-            $this->Reservas_model->modificarReserva($idReserva, $data); 
-            $this->session->set_flashdata('mensaje', 'Reserva modificada correctamente.'); 
-            redirect('Reservas/movil', 'refresh');
-        }
-    }
-
-    // Función para eliminar una reserva
-    public function eliminar() {
-        $idReserva = $this->input->post('idReserva');
-        if (!$idReserva) {
-            $this->session->set_flashdata('error', 'ID de reserva no proporcionado.');
-            redirect('Reservas/movil', 'refresh');
-        }
-
-        $resultado = $this->Reservas_model->eliminarReserva($idReserva); 
-
-        if ($resultado) {
-            $this->session->set_flashdata('mensaje', 'Reserva eliminada correctamente.');
-        } else {
-            $this->session->set_flashdata('error', 'No se pudo eliminar la reserva. Puede que no exista.');
-        }
-
-        redirect('Reservas/movil');
-    }
-
-    // Función para deshabilitar una reserva
-    public function deshabilitarbd() {
-        $idReserva = $this->input->post('idReserva');
-        $data = array('estado' => 'completada');
-
-        $this->Reservas_model->modificarReserva($idReserva, $data); 
-        $this->session->set_flashdata('mensaje', 'Reserva completada correctamente.'); 
+    public function eliminarbd() {
+        $id_reserva = $this->input->post('id_reserva');
+        $this->Reservas_model->eliminar_reserva($id_reserva); // Usando la función de eliminación de reservas
         redirect('Reservas/movil', 'refresh');
     }
 
-    // Función para habilitar una reserva
-    public function habilitarbd() {
-        $idReserva = $this->input->post('idReserva');
-        $data = array('estado' => 'pendiente');
-
-        $this->Reservas_model->modificarReserva($idReserva, $data); 
-        $this->session->set_flashdata('mensaje', 'Reserva habilitada nuevamente.'); 
-        redirect('Reservas/deshabilitados', 'refresh');
-    }
-
-    // Función para mostrar reservas deshabilitadas
-    public function deshabilitados() {
-        $listaRes = $this->Reservas_model->listaDeshabilitadosCans()->result(); 
-        $data['reservas'] = $listaRes;
+    public function modificar() {
+        $id_reserva = $this->input->post('id_reserva');
+        $data['infoReserva'] = $this->Reservas_model->recuperarestaurante($id_reserva); // Cambiado a 'infoReserva'
 
         $this->load->view('inc/head');
         $this->load->view('inc/menu');
-        $this->load->view('deshabilitados', $data);
+        $this->load->view('formmodificar', $data);
+        $this->load->view('inc/footer');
         $this->load->view('inc/pie');
+    }
+
+    public function modificarbd() {
+        $id_reserva = $this->input->post('id_reserva');
+        $data = array(
+            'nombreCliente' => strtoupper($this->input->post('nombreCliente')),
+            'telefono' => $this->input->post('telefono'),
+            'tipoServicio' => $this->input->post('tipoServicio'),
+            'estado' => $this->input->post('estado'), // Cambiado a 'estado'
+        );
+
+        $this->Reservas_model->modificarReserva($id_reserva, $data); // Usando la función de modificación de reservas
+        redirect('Reservas/movil', 'refresh');
+    }
+
+    public function deshabilitarbd() {
+        $idReserva = $this->input->post('idReserva');
+        $data['estado'] = 'completada'; // Cambiado a 'completada'
+
+        $this->Reservas_model->modificarReserva($idReserva, $data); // Usando la función de modificación de reservas
+        redirect('Reservas/lista', 'refresh');
+    }
+
+    public function deshabilitados()
+	{
+		$listaRes=$this->Reservas_model->listaReservasCompletadas();
+		$data['estado']=$listaRes;
+
+		$this->load->view('inc/head');
+		$this->load->view('listaconfRes',$data);
+		$this->load->view('inc/pie');
+	}
+
+
+    public function habilitarbd() {
+        $idReserva = $this->input->post('idReserva');
+        $data['estado'] = 'pendiente'; // Cambiado a 'pendiente'
+
+        $this->Reservas_model->modificarReserva($idReserva, $data); // Usando la función de modificación de reservas
+        redirect('Reservas/deshabilitados', 'refresh');
+    }
+
+    public function modificarEstado() {
+        $idReserva = $this->input->post('idReserva');
+        $nuevo_estado = $this->input->post('nuevo_estado');
+    
+        // Cargar el modelo
+        $this->load->model('Reservas_model');
+    
+        // Crear un arreglo con los datos a actualizar
+        $data = array(
+            'estado' => $nuevo_estado,
+            'fechaActualizacion' => date('Y-m-d H:i:s') // Actualiza la fecha de actualización
+        );
+    
+        // Actualizar el estado en la base de datos
+        if ($this->Reservas_model->modificarReserva($idReserva, $data)) {
+            $this->session->set_flashdata('mensaje', 'Estado de la reserva actualizado con éxito.');
+        } else {
+            $this->session->set_flashdata('error', 'Error al actualizar el estado de la reserva.');
+        }
+    
+        // Redirigir a la lista de reservas
+        redirect('reservas/lista');
+    }
+
+    public function listaCancelados() {
+        $this->load->model('Reservas_model');
+        $data['solicitudes'] = $this->Reservas_model->obtenerReservasPorEstado('cancelado');
+        
+        $this->load->view('inc/head');
+		$this->load->view('listaEstCanceldo',$data);
+		$this->load->view('inc/pie');
     }
 }
